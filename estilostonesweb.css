@@ -1,0 +1,559 @@
+/* Variables de Fuentes y Colores para fácil personalización */
+:root {
+    /* Fuentes */
+    --font-primary: 'Montserrat', sans-serif; /* Para texto general y cuerpos */
+    --font-heading: 'Playfair Display', serif; /* Para títulos principales */
+
+    /* Colores (Paleta extraída del logo y complementarios) */
+    --color-primary: #333; /* Gris oscuro casi negro, para texto principal y fondos oscuros */
+    --color-secondary: #6B7280; /* Gris medio, para texto secundario y detalles */
+    --color-accent: #B08D57; /* Dorado/Bronce del logo - Usado para elementos destacados */
+    --color-accent-dark: #8D7045; /* Versión más oscura del acento para hovers */
+    --color-light-brown: #CDC0B4; /* Marrón claro sutil del logo - para fondos suaves o bordes */
+    --color-dark-green: #3D4A47; /* ¡NUEVO! Verde oscuro del logo - para elementos prominentes */
+    --color-background-light: #F8F8F8; /* Gris muy claro, para fondos de secciones y página */
+    --color-white: #FFFFFF;
+    --color-black: #000000;
+}
+
+/* RESET BÁSICO para consistencia entre navegadores */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Incluye padding y border en el tamaño del elemento */
+}
+
+/* Estilos generales del cuerpo de la página */
+body {
+    font-family: var(--font-primary);
+    line-height: 1.6; /* Altura de línea para mejor legibilidad */
+    color: var(--color-primary); /* Color de texto principal */
+    background-color: var(--color-background-light); /* Color de fondo suave */
+    overflow-x: hidden; /* Evita el scroll horizontal no deseado */
+}
+
+/* Estilos de los títulos (H1, H2, H3) */
+h1, h2, h3 {
+    font-family: var(--font-heading); /* Fuente elegante para títulos */
+    color: var(--color-primary);
+    margin-bottom: 0.8em; /* Espaciado uniforme */
+    text-align: center; /* Centrar todos los títulos por defecto */
+}
+
+h1 {
+    font-size: 3em; /* Tamaño imponente para el título principal */
+    font-weight: 700;
+    color: var(--color-accent); /* Color acento para el H1 principal (del logo) */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05); /* Sombra sutil para profundidad */
+}
+
+h2 {
+    font-size: 2.2em;
+    font-weight: 600;
+    margin-bottom: 1.5em; /* Más espacio debajo de H2 */
+    color: var(--color-dark-green); /* ¡NUEVO! H2s ahora usan el verde oscuro */
+}
+
+h3 {
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+p {
+    font-size: 1em;
+    margin-bottom: 1em;
+}
+
+strong {
+    font-weight: 700; /* Asegura que el texto en negrita sea más notorio */
+}
+
+/* Header (Cabecera del sitio) */
+header {
+    background-color: var(--color-white);
+    padding: 1.5em 0;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra suave para un efecto flotante */
+    display: flex; /* Para alinear el logo y el h1 */
+    flex-direction: column; /* Para que estén uno encima del otro */
+    align-items: center; /* Centrar horizontalmente */
+    justify-content: center;
+}
+
+header img {
+    max-width: 180px; /* Tamaño del logo */
+    height: auto;
+    margin-bottom: 10px; /* Espacio entre logo y h1 */
+}
+
+header h1 {
+    margin: 0; /* Eliminar margen predeterminado de h1 */
+    font-size: 2.5em; /* Ajustar tamaño para el h1 en el header */
+    color: var(--color-dark-green); /* ¡NUEVO! H1 del header en verde oscuro */
+    text-shadow: none; /* Sin sombra aquí */
+}
+
+/* Navegación (Menú principal) */
+header nav {
+    margin-top: 15px; /* Espacio debajo del h1 */
+}
+header nav ul {
+    list-style: none; /* Remover viñetas */
+    padding: 0;
+    display: flex; /* Para que los elementos estén en fila */
+    justify-content: center;
+    gap: 30px; /* Espacio entre los elementos del menú */
+}
+header nav ul li a {
+    text-decoration: none; /* Remover subrayado de enlaces */
+    color: var(--color-secondary); /* Color suave para los enlaces */
+    font-weight: 600; /* Negrita */
+    font-size: 1.1em; /* Un poco más grande */
+    padding: 5px 10px;
+    transition: color 0.3s ease, border-bottom 0.3s ease; /* Transición suave al pasar el ratón */
+}
+header nav ul li a:hover {
+    color: var(--color-accent); /* Color acento al pasar el ratón */
+    border-bottom: 2px solid var(--color-accent); /* Subrayado elegante */
+}
+
+/* Contenedor principal de contenido */
+.main-content-wrapper {
+    max-width: 1200px; /* Ancho máximo del contenido */
+    margin: 2em auto; /* Centrar el contenedor con margen superior e inferior */
+    padding: 0 20px; /* Padding horizontal para evitar que el contenido toque los bordes */
+}
+
+/* Estilos de las secciones generales */
+section {
+    padding: 3em 2em; /* Padding interno para todas las secciones */
+    margin-bottom: 2em; /* Espacio entre secciones */
+    background-color: var(--color-white); /* Fondo blanco para las secciones */
+    border-radius: 8px; /* Bordes ligeramente redondeados */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03); /* Sombra sutil */
+}
+
+/* Sección de Introducción */
+#intro {
+    text-align: center;
+    font-size: 1.15em;
+    color: var(--color-secondary); /* Un gris más suave para la intro */
+}
+#intro strong {
+    color: var(--color-dark-green); /* ¡NUEVO! Destacar negritas en intro con verde oscuro */
+}
+#intro p {
+    max-width: 800px; /* Limitar ancho del texto de intro para mejor legibilidad */
+    margin: 0 auto 1em auto;
+}
+
+/* Productos - Cuadrícula de productos */
+#productos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Columnas responsivas */
+    gap: 30px; /* Aumentar el espacio entre productos */
+    padding: 2em 0; /* Padding dentro de la sección de productos */
+}
+
+/* Tarjeta de producto individual */
+.producto {
+    background-color: var(--color-white);
+    border-radius: 8px;
+    overflow: hidden; /* Para que las esquinas de la imagen también sean redondeadas */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); /* Sombra un poco más pronunciada */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición suave para efecto hover */
+    display: flex;
+    flex-direction: column; /* Imagen arriba, información abajo */
+    text-align: center; /* Centrar texto dentro del producto */
+    height: 100%; /* Asegura que todas las tarjetas tengan la misma altura */
+}
+
+.producto:hover {
+    transform: translateY(-5px); /* Se eleva ligeramente al pasar el ratón */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1); /* Sombra más fuerte al pasar el ratón */
+}
+
+.producto img {
+    width: 100%;
+    height: 200px; /* Altura fija para las imágenes de productos */
+    object-fit: cover; /* Recorta la imagen para que encaje y cubra el espacio */
+    border-bottom: 1px solid var(--color-light-brown); /* Línea separadora sutil con color del logo */
+}
+
+.producto-info {
+    padding: 1.2em; /* Aumentar el padding de la información */
+    flex-grow: 1; /* Para que ocupe el espacio restante en la tarjeta */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Empuja el precio y el botón hacia abajo si el texto es corto */
+}
+
+.producto-info h3 {
+    font-size: 1.3em; /* Título de producto un poco más grande */
+    margin-bottom: 0.5em;
+    color: var(--color-dark-green); /* ¡NUEVO! Títulos de producto en verde oscuro */
+}
+
+.producto-info .descripcion-corta {
+    font-size: 0.9em;
+    color: var(--color-secondary); /* Color más suave para la descripción corta */
+    flex-grow: 1; /* Para que ocupe el espacio */
+    margin-bottom: 0.8em;
+}
+
+.producto-info .precio {
+    font-size: 1.1em;
+    font-weight: 700;
+    color: var(--color-accent); /* Precio en color acento del logo */
+    margin-bottom: 1em;
+    display: block; /* Para que ocupe su propia línea */
+}
+
+/* Botones */
+.boton-ver-mas, button[type="submit"] {
+    background-color: var(--color-dark-green); /* ¡NUEVO! Botones en verde oscuro */
+    color: var(--color-white);
+    border: none;
+    padding: 0.8em 1.5em;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600; /* Negrita para botones */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transición suave al pasar el ratón */
+    margin-top: 1em; /* Espacio superior */
+}
+
+.boton-ver-mas:hover, button[type="submit"]:hover {
+    background-color: var(--color-accent-dark); /* Color acento más oscuro del logo al pasar el ratón */
+    transform: translateY(-2px); /* Pequeño efecto de "levantar" */
+}
+
+/* Aplicaciones - Cuadrícula de aplicaciones */
+.aplicaciones-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    padding: 2em 0;
+}
+
+/* Tarjeta de aplicación individual */
+.aplicacion-item {
+    background-color: var(--color-white);
+    border-radius: 8px;
+    padding: 2em;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.aplicacion-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.aplicacion-icono {
+    width: 80px; /* Tamaño consistente para los iconos */
+    height: 80px;
+    margin-bottom: 1em;
+    /* Efecto para que los iconos tengan un tono similar al acento (ajustado para el nuevo color) */
+    filter: grayscale(100%) brightness(50%) sepia(100%) hue-rotate(250deg) saturate(300%) opacity(0.8);
+}
+
+.aplicacion-number {
+    font-family: var(--font-heading);
+    font-size: 2.5em;
+    font-weight: 700;
+    color: var(--color-accent); /* Color acento del logo */
+    margin-bottom: 0.5em;
+    display: block;
+}
+
+.recomendaciones {
+    text-align: center;
+    font-size: 1.1em;
+    color: var(--color-secondary);
+    margin-bottom: 1.5em;
+}
+
+/* Sección de Testimonios */
+.testimonios {
+    text-align: center;
+    background-color: var(--color-background-light); /* Fondo ligeramente diferente para destacar */
+    padding: 4em 0; /* Más padding */
+}
+
+.testimonio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1000px; /* Ancho máximo para la cuadrícula */
+    margin: 2em auto; /* Centrar la cuadrícula */
+}
+
+.testimonio-item {
+    background-color: var(--color-white);
+    padding: 2em;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.testimonio-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.testimonio-item p {
+    font-style: italic; /* Cursiva para el texto del testimonio */
+    margin-bottom: 1em;
+    color: var(--color-primary);
+    font-size: 1.05em;
+}
+
+.testimonio-item cite {
+    display: block;
+    font-weight: 600;
+    color: var(--color-accent); /* Color acento para los nombres */
+    font-size: 0.95em;
+    margin-top: 1em;
+}
+
+/* Formulario de Contacto */
+.contacto form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2.5em;
+    background-color: var(--color-white);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+}
+
+.contacto label {
+    display: block;
+    margin-bottom: 0.5em;
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+.contacto input[type="text"],
+.contacto input[type="email"],
+.contacto input[type="tel"],
+.contacto select,
+.contacto textarea {
+    width: 100%;
+    padding: 0.8em;
+    margin-bottom: 1.5em;
+    border: 1px solid var(--color-light-brown); /* Borde de input con color sutil del logo */
+    border-radius: 5px;
+    font-family: var(--font-primary);
+    font-size: 1em;
+    color: var(--color-primary);
+    background-color: var(--color-background-light); /* Fondo suave para los inputs */
+}
+
+.contacto textarea {
+    resize: vertical; /* Permite redimensionar verticalmente */
+}
+
+.contacto input::placeholder, .contacto textarea::placeholder {
+    color: #aaa; /* Color suave para los placeholders */
+}
+
+.form-success-message {
+    margin-top: 1em;
+    padding: 1em;
+    background-color: #d4edda; /* Verde suave (se mantiene por ser mensaje de éxito genérico) */
+    color: #155724; /* Verde oscuro */
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Footer (Pie de página) */
+footer {
+    background-color: var(--color-primary); /* Fondo oscuro */
+    color: var(--color-background-light); /* Texto claro */
+    text-align: center;
+    padding: 2em 0;
+    font-size: 0.9em;
+    margin-top: 3em; /* Más espacio superior */
+}
+footer p {
+    color: var(--color-background-light); /* Asegurar que el texto sea claro */
+    margin-bottom: 0.5em;
+}
+
+/* Modal de Detalles del Producto */
+.modal-overlay {
+    position: fixed; /* Fijo en el viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    opacity: 0; /* Inicialmente invisible */
+    visibility: hidden; /* Oculto para no bloquear interacciones */
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* Transición suave al aparecer */
+}
+
+.modal-overlay.active {
+    opacity: 1; /* Visible */
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: var(--color-white);
+    padding: 2.5em;
+    border-radius: 10px; /* Bordes más redondeados */
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2); /* Sombra más fuerte */
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    text-align: center; /* Centrar contenido del modal */
+    transform: translateY(20px); /* Para la animación de entrada */
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 2.5em;
+    font-weight: normal; /* No negrita para la X */
+    color: var(--color-secondary);
+    cursor: pointer;
+    line-height: 1; /* Eliminar espacio extra */
+    transition: color 0.2s ease;
+}
+
+.close-button:hover {
+    color: var(--color-primary);
+}
+
+.modal-content h2 {
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-size: 2em;
+    margin-bottom: 0.8em;
+}
+
+.modal-content img {
+    max-width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 1.5em;
+}
+
+.modal-content p {
+    color: var(--color-secondary);
+    margin-bottom: 1em;
+    font-size: 1.05em;
+    text-align: left; /* Alinea el texto a la izquierda dentro del modal */
+}
+
+.modal-precio, .modal-categoria, .modal-caracteristicas {
+    text-align: left; /* Alinea estos textos a la izquierda */
+    margin-bottom: 0.5em;
+    font-size: 1.05em;
+}
+
+.modal-precio {
+    font-weight: 700;
+    color: var(--color-accent); /* Color acento del logo */
+    font-size: 1.2em;
+    margin-top: 1em;
+    display: block;
+}
+
+
+/* Clases para animación de scroll (visible al aparecer en el viewport) */
+.hidden-element {
+    opacity: 0;
+    transform: translateY(30px); /* Empieza 30px abajo */
+    transition: opacity 0.9s ease-out, transform 0.9s ease-out; /* Duración y tipo de transición */
+}
+
+.hidden-element.visible {
+    opacity: 1; /* Se hace visible */
+    transform: translateY(0); /* Vuelve a su posición original */
+}
+
+
+/* Media queries para Responsividad (adaptación a diferentes tamaños de pantalla) */
+/* Para tablets y pantallas medianas */
+@media (max-width: 992px) {
+    h1 {
+        font-size: 2.8em;
+    }
+    h2 {
+        font-size: 2em;
+    }
+    .main-content-wrapper {
+        padding: 0 15px; /* Reduce padding horizontal */
+    }
+    #productos-grid, .aplicaciones-grid, .testimonio-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Ajusta el tamaño mínimo de columna */
+        gap: 25px; /* Reduce un poco el espacio entre elementos */
+    }
+}
+
+/* Para teléfonos móviles */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.2em;
+    }
+    h2 {
+        font-size: 1.8em;
+        margin-bottom: 1em;
+    }
+    #intro {
+        font-size: 1em;
+        padding: 2em 1em;
+    }
+    /* Las cuadrículas pasan a una sola columna en móviles */
+    #productos-grid, .aplicaciones-grid, .testimonio-grid {
+        grid-template-columns: 1fr; 
+        gap: 20px;
+    }
+    header nav ul {
+        flex-direction: column; /* Menú de navegación se apila verticalmente */
+        gap: 10px;
+    }
+    header nav ul li a {
+        padding: 5px;
+        font-size: 1em;
+    }
+    section {
+        padding: 2em 1em; /* Reduce padding de secciones */
+        margin-bottom: 1.5em;
+    }
+    .producto-info h3 {
+        font-size: 1.2em;
+    }
+    .modal-content {
+        width: 90%; /* Modal más ancho en móviles */
+        padding: 1.5em;
+    }
+    .close-button {
+        top: 10px;
+        right: 15px;
+        font-size: 2em;
+    }
+    .modal-content h2 {
+        font-size: 1.8em;
+    }
+    .modal-content img {
+        height: 180px; /* Reduce altura de imagen en el modal */
+    }
+}
