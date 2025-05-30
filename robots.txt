@@ -1,0 +1,5 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://stonesupplies.github.io/sitemap.xml
+
