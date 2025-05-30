@@ -1,0 +1,5 @@
+
+User-agent: *
+Disallow: 
+Disallow: /cgi-bin/
+Sitemap: file:///C:/Users/andre/OneDrive/Escritorio/STONES%20SUPPLIES/HTML%20-%20PAGINA%20-%20STONES/STONES%20WEB%20COD/index.html/sitemap.xml
