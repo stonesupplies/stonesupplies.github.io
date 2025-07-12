@@ -1,0 +1,1220 @@
+/* --- Variables de Fuentes y Colores --- */
+:root {
+    /* Fuentes */
+    --font-primary: 'Montserrat', sans-serif; /* Para texto general y cuerpos */
+    --font-heading: 'Playfair Display', serif; /* Para títulos principales */
+
+    /* Colores (Paleta extraída del logo y complementarios, más optimizada) */
+    --color-text-dark: #000806; /* Gris oscuro casi negro, para texto principal, títulos */
+    --color-text-light: #080808; /* Gris medio, para texto secundario, descripciones */
+    --color-accent-primary: #B08D57; /* Dorado/Bronce del logo - Elementos destacados, énfasis */
+    --color-accent-dark: #8D7045; /* Versión más oscura del acento para hovers y contraste */
+    --color-background-light: #F8F8F8; /* Gris muy claro, para fondos de secciones y página */
+    --color-background-soft: #EDEDED; /* Gris ligeramente más oscuro para variación de fondos */
+    --color-border-subtle: #D0D0D0; /* Ajustado: Para bordes finos y líneas divisorias, #1b2b27 era muy oscuro */
+    --color-brand-green: #050202; /* color de la letra toda la pagina */
+    --color-brand-blue: #fafaf2; /* Nuevo: color de la seccion del losgo stones" */
+    --color-white: #faf5f5; /* fondo de pagina */
+    --color-black: #ebe6e6;
+
+    /* Nuevas Variables para Espaciado y Sombras */
+    --spacing-sm: 1em;   /* Pequeño: 16px */
+    --spacing-md: 2em;   /* Medio: 32px */
+    --spacing-lg: 3em;   /* Grande: 48px */
+    --shadow-light: 0 2px 5px rgba(0,0,0,0.08); /* Sombra suave para elementos */
+    --shadow-medium: 0 4px 12px rgba(0,0,0,0.1); /* Sombra media para hover/énfasis */
+    --border-radius-base: 8px; /* Radio de borde uniforme */
+}
+/* --- RESET BÁSICO --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Ajuste para el desplazamiento de anclajes, considerando el header fijo */
+html {
+    scroll-padding-top: 170px; /* **VALOR ACTUALIZADO AQUÍ** - Ajusta este valor si tu header tiene una altura diferente */
+    scroll-behavior: smooth; /* Proporciona un desplazamiento suave a los anclajes */
+}
+
+/* --- Estilos Generales del Cuerpo de la Página --- */
+body {
+    font-family: var(--font-primary);
+    line-height: 1.6;
+    color: var(--color-text-dark); /* Usar variable de texto oscuro */
+    background-color: var(--color-background-light); /* Usé color-background-light ya que color-background no está definida */
+    overflow-x: hidden;
+    padding-top: 170px; /* Ajustar según la altura final del header fijo */
+    font-size: 0.95rem; /* Usar rem para una escala más predecible */
+}
+
+/* --- Estilos de Títulos (H1, H2, H3) --- */
+h1, h2, h3 {
+    font-family: var(--font-heading);
+    color: var(--color-text-dark); /* Color de texto oscuro para todos los títulos por defecto */
+    margin-bottom: var(--spacing-sm); /* Usar variable de espaciado */
+    text-align: center;
+}
+
+h1 {
+    font-size: 3.2rem; /* Tamaño imponente, ajustado a rem */
+    font-weight: 700;
+    color: var(--color-accent-primary); /* Color acento para el H1 principal */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+}
+
+h2 {
+    font-size: 2.4rem; /* Ajustado a rem */
+    font-weight: 600;
+    margin-bottom: 0.5em; /* Un espacio más ajustado */
+    color: var(--color-brand-green); /* H2s ahora usan el gris oscuro de la marca */
+}
+
+h3 {
+    font-size: 1.6rem; /* Ajustado a rem */
+    font-weight: 600;
+}
+
+p {
+    font-size: 1rem; /* Relativo al font-size del body */
+    margin-bottom: var(--spacing-sm);
+}
+
+strong {
+    font-weight: 700;
+    color: var(--color-brand-green); /* Negritas más notables y en color de marca */
+}
+
+/* --- Header (Cabecera del sitio) --- */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--color-white);
+    box-shadow: var(--shadow-light); /* Usar variable de sombra */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em 0; /* Un padding general que luego se ajusta */
+}
+
+.header-logo-section {
+    background-color: var(--color-brand-blue); /* CORRECCIÓN: Usando la nueva variable para el azul */
+    padding: 20px 0; /* Opcional: Ajusta el padding para dar un poco de espacio vertical al logo */
+    text-align: center; /* Opcional: Si quieres centrar horizontalmente la imagen del logo */
+    display: flex; /* Asegurarse de que el flex se aplica aquí */
+    align-items: center;
+    gap: var(--spacing-sm); /* Usar variable de espaciado */
+    max-width: 1200px;
+    width: 100%;
+    justify-content: center; /* Centrar el contenido dentro de esta sección */
+}
+
+.header-logo-section img {
+    max-width: 180px;
+    height: auto;
+    margin-bottom: 0;
+}
+
+.header-logo-section h1 {
+    margin: 0;
+    font-size: 2.5rem; /* Ajustado a rem */
+    color: var(--color-text-dark);
+    text-shadow: none;
+    text-align: left;
+    font-weight: 500;
+}
+
+/* --- Navegación Principal --- */
+.main-nav {
+    width: 100%;
+    background-color: var(--color-black); /* Usé tu variable --color-black */
+    padding: 0.8em 20px;
+    border-top: 1px solid var(--color-border-subtle); /* Usar variable de borde */
+}
+
+.main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 35px; /* Mantener este gap si es intencional */
+    max-width: 1000px;
+}
+
+.main-nav ul li a {
+    text-decoration: none;
+    color: var(--color-text-light); /* Color suave para los enlaces */
+    font-weight: 600;
+    font-size: 1rem; /* Ajustado a rem */
+    padding: 5px 0;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+    border-bottom: 2px solid transparent;
+}
+
+.main-nav ul li a:hover,
+.main-nav ul li a.active { /* Clase activa más flexible */
+    color: var(--color-brand-green); /* Color primario al pasar el ratón o si está activo */
+    border-bottom: 2px solid var(--color-accent-primary); /* Subrayado elegante con color acento */
+}
+
+/* --- Contenedor Principal de Contenido --- */
+main {
+    max-width: 1200px;
+    margin: var(--spacing-md) auto; /* Usar variable de espaciado */
+    padding: 0 20px;
+}
+
+/* --- ESTILOS AÑADIDOS PARA EL LAYOUT DE 3 COLUMNAS --- */
+.main-layout-container {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-md); /* Espacio entre columnas */
+    align-items: flex-start; /* Alinea los elementos al inicio del eje cruzado */
+    max-width: 1200px; /* Mismo ancho que el main */
+    margin: var(--spacing-md) auto; /* Centra el contenedor */
+    padding: 0 20px; /* Padding similar al main */
+}
+
+.content-area {
+    flex-grow: 1; /* Permite que el área de contenido ocupe el espacio restante */
+    min-width: 0; /* Previene desbordamiento en flexbox con contenido largo */
+}
+
+aside {
+    flex-shrink: 0; /* Evita que las barras laterales se encojan */
+    width: 250px; /* Ancho fijo para las barras laterales */
+    background-color: var(--color-white);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-base);
+    box-shadow: var(--shadow-light);
+    margin-bottom: var(--spacing-md); /* Espacio entre las secciones si se apilan */
+}
+
+/* Estilos específicos para la barra lateral izquierda (navegación principal de productos) */
+.aside-left {
+    order: -1; /* Mueve esta barra lateral al principio visualmente en un diseño flex */
+}
+
+aside h3 {
+    font-size: 1.4rem; /* Ajuste para el tamaño del título de la barra lateral */
+    color: var(--color-brand-green);
+    margin-bottom: 1em;
+    text-align: left; /* Títulos de las barras laterales alineados a la izquierda */
+}
+
+aside ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+aside ul li {
+    margin-bottom: 0.8em;
+}
+
+aside ul li a {
+    text-decoration: none;
+    color: var(--color-text-dark);
+    font-weight: 500;
+    font-size: 0.95rem;
+    display: block; /* Para que el área clicable ocupe todo el ancho */
+    padding: 0.3em 0;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+aside ul li a:hover {
+    color: var(--color-accent-primary);
+    transform: translateX(5px); /* Pequeño desplazamiento al pasar el ratón */
+}
+
+aside ul li a.current-page { /* Clase para la página actual en la navegación de la barra lateral */
+    color: var(--color-accent-primary);
+    font-weight: 700;
+}
+/* --- FIN DE ESTILOS AÑADIDOS PARA EL LAYOUT DE 3 COLUMNAS --- */
+
+/* --- Estilos de las Secciones Generales (ahora dentro de .content-area) --- */
+section {
+    padding: var(--spacing-lg) var(--spacing-md); /* Usar variables de espaciado */
+    margin-bottom: var(--spacing-md);
+    background-color: var(--color-white);
+    border-radius: var(--border-radius-base); /* Usar variable de borde */
+    box-shadow: var(--shadow-light); /* Usar variable de sombra */
+    text-align: center;
+    /* Animación oculta por defecto, se activa con JS */
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.9s ease-out, transform 0.9s ease-out;
+}
+
+section.visible { /* Clase para cuando el elemento es visible en el viewport */
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Sección de Introducción --- */
+#intro {
+    font-size: 1rem; /* Relativo al body font-size, que ya es 0.95rem */
+    color: var(--color-text-light);
+}
+#intro strong {
+    color: var(--color-brand-green);
+}
+#intro p {
+    max-width: 800px;
+    margin: 0 auto var(--spacing-sm) auto;
+}
+
+/* --- Productos - Cuadrícula de productos --- */
+#productos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-md); /* Usar variable de espaciado */
+    padding: var(--spacing-md) 0;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* --- Tarjeta de producto individual --- */
+.producto {
+    background-color: var(--color-white);
+    border-radius: var(--border-radius-base);
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Sombra ligeramente más pronunciada */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    height: 100%;
+}
+
+.producto:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium); /* Sombra más fuerte al pasar el ratón */
+}
+
+.producto img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.producto-info {
+    padding: 1.2em; /* Mantener em para ser relativo a su propio font-size */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.producto-info h3 {
+    font-size: 1.2rem; /* Ajustado a rem */
+    margin-bottom: 0.5em;
+    color: var(--color-brand-green);
+}
+
+.producto-info .descripcion-corta {
+    font-size: 0.9rem; /* Ajustado a rem */
+    color: var(--color-text-light);
+    flex-grow: 1;
+    margin-bottom: 0.8em;
+}
+
+.producto-info .precio {
+    font-size: 1rem; /* Ajustado a rem */
+    font-weight: 700;
+    color: var(--color-accent-primary);
+    margin-bottom: var(--spacing-sm);
+    display: block;
+}
+
+/* --- Botones --- */
+.boton-ver-mas, button[type="submit"] {
+    background-color: var(--color-brand-green);
+    color: var(--color-white);
+    border: none;
+    padding: 0.8em 1.5em;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.95rem; /* Ajustado a rem */
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 1em;
+}
+
+.boton-ver-mas:hover, button[type="submit"]:hover {
+    background-color: var(--color-accent-dark);
+    transform: translateY(-2px);
+}
+
+/* --- Aplicaciones - Cuadrícula de aplicaciones --- */
+.aplicaciones-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) 0;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* --- Tarjeta de aplicación individual --- */
+.aplicacion-item {
+    background-color: var(--color-white);
+    border-radius: var(--border-radius-base);
+    padding: var(--spacing-md);
+    text-align: center;
+    box-shadow: var(--shadow-light);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+.aplicacion-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-medium);
+}
+
+.aplicacion-icono {
+    width: 80px;
+    height: 80px;
+    margin-bottom: var(--spacing-sm);
+}
+
+.aplicacion-number {
+    font-family: var(--font-heading);
+    font-size: 2.3rem; /* Ajustado a rem */
+    font-weight: 700;
+    color: var(--color-accent-primary);
+    margin-bottom: 0.5em; /* Mantener em para ser relativo a su propio font-size */
+    display: block;
+}
+
+.recomendaciones {
+    text-align: center;
+    font-size: 1rem; /* Ajustado a rem */
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-md);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- Sección de Testimonios --- */
+.testimonios {
+    text-align: center;
+    background-color: var(--color-background-light); /* Usar variable de fondo */
+    padding: 4em 0; /* Padding vertical más generoso */
+}
+
+.testimonio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-md);
+    max-width: 1000px;
+    margin: var(--spacing-md) auto;
+}
+
+.testimonio-item {
+    background-color: var(--color-white);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-base);
+    box-shadow: var(--shadow-light);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.testimonio-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+}
+
+.testimonio-item p {
+    font-style: italic;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-dark);
+    font-size: 0.95rem; /* Ajustado a rem */
+}
+
+.testimonio-item cite {
+    display: block;
+    font-weight: 600;
+    color: var(--color-accent-primary);
+    font-size: 0.9rem; /* Ajustado a rem */
+    margin-top: var(--spacing-sm);
+}
+
+/* --- Formulario de Contacto --- */
+.contacto form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2.5em;
+    background-color: var(--color-white);
+    border-radius: var(--border-radius-base);
+    box-shadow: var(--shadow-light);
+}
+
+.contacto label {
+    display: block;
+    margin-bottom: 0.5em;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    font-size: 0.95rem; /* Ajustado a rem */
+}
+
+.contacto input[type="text"],
+.contacto input[type="email"],
+.contacto input[type="tel"],
+.contacto select,
+.contacto textarea {
+    width: 100%;
+    padding: 0.8em;
+    margin-bottom: 1.5em;
+    border: 1px solid var(--color-border-subtle); /* Usar variable de borde */
+    border-radius: 5px;
+    font-family: var(--font-primary);
+    font-size: 0.95rem; /* Ajustado a rem */
+    color: var(--color-text-dark);
+    background-color: var(--color-background-soft); /* Fondo más suave para inputs */
+}
+
+.contacto textarea {
+    resize: vertical;
+}
+
+.contacto input::placeholder, .contacto textarea::placeholder {
+    color: var(--color-text-light); /* Placeholder más acorde con paleta */
+    opacity: 0.8; /* Ligeramente más transparente */
+    font-size: 0.95rem; /* Ajustado a rem */
+}
+
+.form-success-message {
+    margin-top: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    background-color: #d4edda; /* Verde éxito */
+    color: #155724; /* Verde oscuro */
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.95rem; /* Ajustado a rem */
+}
+
+/* --- Footer (Pie de página) --- */
+footer {
+    background-color: var(--color-brand-green); /* Usar el gris oscuro de la marca para el footer */
+    color: var(--color-background-light); /* Texto claro */
+    text-align: center;
+    padding: var(--spacing-md) 0;
+    font-size: 0.85rem; /* Ajustado a rem */
+    margin-top: var(--spacing-lg);
+}
+footer p {
+    color: var(--color-background-light);
+    margin-bottom: 0.5em; /* Mantener em para relación con el font-size del footer */
+}
+footer a {
+    color: var(--color-accent-primary); /* Enlaces del footer en color acento */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+footer a:hover {
+    color: var(--color-white);
+}
+
+/* --- Modal de Detalles del Producto y Modal de Política (Estilos base compartidos) --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    overflow-y: auto; /* Permite scroll dentro del modal si el contenido es largo */
+    -webkit-overflow-scrolling: touch; /* Mejora el scroll en iOS */
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: var(--color-white);
+    padding: 2.5em;
+    border-radius: var(--border-radius-base);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    text-align: center;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    margin: 20px auto; /* Añade margen vertical para que no ocupe todo el alto en pantallas pequeñas */
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 2.2rem; /* Ajustado a rem */
+    font-weight: normal;
+    color: var(--color-text-light);
+    cursor: pointer;
+    line-height: 1;
+    background: none; /* Asegurar que no tenga fondo por defecto */
+    border: none; /* Asegurar que no tenga borde */
+}
+
+.close-button:hover {
+    color: var(--color-text-dark);
+}
+
+.modal-content h2 {
+    color: var(--color-text-dark);
+    font-family: var(--font-heading);
+    font-size: 1.8rem; /* Ajustado a rem */
+    margin-bottom: 0.8em;
+}
+
+.modal-content img {
+    max-width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 1.5em;
+}
+
+.modal-content p {
+    color: var(--color-text-light);
+    margin-bottom: 1em;
+    font-size: 0.95rem; /* Ajustado a rem */
+    text-align: left;
+}
+
+.modal-content p strong {
+    color: var(--color-text-dark);
+}
+
+/* Agrupación de selectores para detalles del modal de productos */
+.modal-content #modal-price,
+.modal-content #modal-category,
+.modal-content #modal-caracteristicas,
+.modal-content #modal-origen,
+.modal-content #modal-usos,
+.modal-content #modal-mantenimiento {
+    text-align: left;
+    margin-bottom: 0.5em;
+    font-size: 0.95rem; /* Ajustado a rem */
+}
+
+.modal-content #modal-price { /* Selector más específico para el precio en el modal */
+    font-weight: 700;
+    color: var(--color-accent-primary);
+    font-size: 1.1rem; /* Ajustado a rem */
+    margin-top: 1em;
+    display: block;
+}
+
+/* --- ESTILOS ESPECÍFICOS PARA EL MODAL DE POLÍTICA DE PRIVACIDAD --- */
+.policy-modal-content {
+    max-width: 800px; /* Más ancho para la política */
+    text-align: left; /* Contenido justificado */
+    padding: 3em; /* Más padding */
+    max-height: 90vh; /* Limitar altura para que sea scrollable */
+    overflow-y: auto; /* Habilitar scroll interno */
+}
+
+.policy-modal-content h1 {
+    color: var(--color-brand-green);
+    text-align: center; /* Mantener el título principal centrado */
+    margin-bottom: 2em;
+    font-size: 2.5rem;
+}
+
+.policy-modal-content h2 {
+    color: var(--color-accent-dark);
+    margin-top: 2em;
+    margin-bottom: 1em;
+    font-size: 1.8rem;
+    text-align: left;
+}
+
+.policy-modal-content p {
+    margin-bottom: 1em;
+    font-size: 1rem;
+    text-align: justify;
+}
+
+.policy-modal-content ul {
+    list-style: disc;
+    margin-left: 20px;
+    margin-bottom: 1em;
+}
+
+.policy-modal-content ul li {
+    margin-bottom: 0.5em;
+    font-size: 0.95rem;
+}
+
+.policy-modal-content strong {
+    color: var(--color-brand-green);
+}
+
+.policy-modal-content .boton-ver-mas { /* Usar el estilo del botón general */
+    display: block;
+    width: fit-content;
+    margin: 2em auto 0 auto; /* Centrar el botón debajo del texto */
+    padding: 1em 2em;
+}
+
+/* --- ESTILOS PARA EL BANNER DE PRIVACIDAD --- */
+#privacy-banner {
+    position: fixed; /* Hace que el widget "flote" y se mantenga en la pantalla al hacer scroll */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-brand-green); /* Usar el gris oscuro de tu marca */
+    color: var(--color-white);
+    padding: 15px 20px;
+    text-align: center;
+    font-family: var(--font-primary);
+    font-size: 0.9rem; /* Un poco más pequeño para el banner */
+    z-index: 9999; /* Asegura que esté por encima de todo */
+    display: none; /* CORRECCIÓN: Inicia oculto, JS lo mostrará */
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); /* Sombra superior */
+    /* Animación se aplica cuando JS añade la clase 'is-visible' */
+}
+
+/* CORRECCIÓN: Clase para mostrar el banner con JS */
+#privacy-banner.is-visible {
+    display: flex; /* Muestra el banner con flexbox */
+    flex-wrap: wrap; /* Permitir que los elementos se envuelvan */
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    gap: 15px; /* Espacio entre el texto y el botón */
+    animation: slideInUp 0.5s ease-out forwards; /* Animación para que aparezca */
+}
+
+#privacy-banner p {
+    margin-bottom: 0; /* Eliminar margen inferior para flexbox */
+    color: var(--color-white); /* Asegurar que el texto sea blanco */
+    line-height: 1.4;
+    flex-basis: 70%; /* Ocupa un 70% del ancho para el texto */
+    max-width: 800px; /* Limitar el ancho del texto */
+}
+
+#privacy-banner a {
+    color: var(--color-accent-primary); /* Enlace "Más Información" en color dorado */
+    text-decoration: underline;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+#privacy-banner a:hover {
+    color: var(--color-white); /* Color blanco al pasar el ratón */
+}
+
+#privacy-banner button {
+    background-color: var(--color-accent-primary); /* Botón "Aceptar" en dorado */
+    color: var(--color-white);
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 700;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    flex-shrink: 0; /* Evita que el botón se encoja */
+}
+
+#privacy-banner button:hover {
+    background-color: var(--color-accent-dark); /* Dorado más oscuro al pasar el ratón */
+    transform: translateY(-1px);
+}
+
+/* Animación para el banner */
+@keyframes slideInUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* --- Media Queries para Responsividad --- */
+
+/* Tablets y Desktops pequeños */
+@media (max-width: 992px) {
+    body {
+        padding-top: 150px;
+        font-size: 0.9rem;
+    }
+    html { /* Ajuste de scroll-padding-top para pantallas más pequeñas */
+        scroll-padding-top: 150px; /* Adapta este valor si tu header es más pequeño en tablets */
+    }
+    h1 {
+        font-size: 2.2rem;
+    }
+    h2 {
+        font-size: 1.8rem;
+    }
+    main {
+        padding: 0 15px;
+        margin-top: 0; /* CORRECCIÓN: Remover el margin top de main aquí, lo maneja main-layout-container */
+    }
+    .header-logo-section {
+        flex-direction: column;
+        gap: 10px;
+        padding: 0.8em 15px;
+    }
+    .header-logo-section img {
+        max-width: 150px;
+    }
+    .header-logo-section h1 {
+        font-size: 2rem;
+    }
+    .main-nav ul {
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+    .main-nav {
+        padding: 0.6em 15px;
+    }
+    .main-nav ul li a {
+        font-size: 0.9rem;
+    }
+    #productos-grid, .testimonio-grid, .aplicaciones-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+    }
+    .producto-info h3 {
+        font-size: 1.1rem;
+    }
+    .producto-info .descripcion-corta {
+        font-size: 0.85rem;
+    }
+    .boton-ver-mas, button[type="submit"] {
+        font-size: 0.9rem;
+    }
+    .aplicacion-number {
+        font-size: 2rem;
+    }
+    .recomendaciones {
+        font-size: 0.95rem;
+    }
+    .testimonio-item p {
+        font-size: 0.9rem;
+    }
+    .testimonio-item cite {
+        font-size: 0.85rem;
+    }
+    .contacto label, .contacto input[type="text"], .contacto input[type="email"], .contacto input[type="tel"], .contacto select, .contacto textarea, .contacto input::placeholder, .contacto textarea::placeholder, .form-success-message {
+        font-size: 0.9rem;
+    }
+    .modal-content h2 {
+        font-size: 1.6rem;
+    }
+    .modal-content p, .modal-content #modal-price, .modal-content #modal-category, .modal-content #modal-caracteristicas, .modal-content #modal-origen, .modal-content #modal-usos, .modal-content #modal-mantenimiento {
+        font-size: 0.9rem;
+    }
+    .modal-content #modal-price {
+        font-size: 1rem;
+    }
+
+    /* Media queries para el banner de privacidad en tablets */
+    #privacy-banner {
+        padding: 12px 15px;
+        font-size: 0.85rem;
+        flex-direction: column; /* Apilar en pantallas más pequeñas */
+        gap: 10px;
+    }
+    #privacy-banner p {
+        flex-basis: auto; /* Restablecer base para apilado */
+    }
+    #privacy-banner button {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+    /* Estilos del modal de política para tablets */
+    .policy-modal-content h1 {
+        font-size: 2rem;
+    }
+    .policy-modal-content h2 {
+        font-size: 1.6rem;
+    }
+    .policy-modal-content p, .policy-modal-content ul li {
+        font-size: 0.9rem;
+    }
+    .policy-modal-content .boton-ver-mas {
+        padding: 0.8em 1.5em;
+    }
+
+    /* --- MEDIA QUERIES AÑADIDAS PARA EL LAYOUT DE 3 COLUMNAS EN TABLETS --- */
+    .main-layout-container {
+        flex-direction: column; /* Apilar las columnas en tablets */
+        gap: var(--spacing-md);
+        padding: 0 15px; /* Ajuste de padding */
+    }
+
+    aside {
+        width: 100%; /* Las barras laterales ocupan todo el ancho */
+        max-width: 600px; /* Limita el ancho de las barras laterales apiladas para que no se extiendan demasiado */
+        margin-left: auto; /* Centrar la barra lateral */
+        margin-right: auto;
+        order: initial; /* Restablece el orden para que sigan el flujo del documento */
+    }
+    .content-area {
+        width: 100%; /* El área de contenido también ocupa todo el ancho */
+        margin: 0 auto; /* Centrar el contenido */
+    }
+
+    /* Las secciones dentro de content-area deben mantener su margen-bottom,
+        pero el margin-top del main-layout-container ya se encarga del espaciado superior */
+    section {
+        margin-bottom: var(--spacing-md);
+    }
+    /* Asegurarse que el margen superior del main-layout-container es el adecuado */
+    .main-layout-container {
+        margin-top: var(--spacing-md);
+    }
+    /* --- FIN DE MEDIA QUERIES AÑADIDAS PARA EL LAYOUT DE 3 COLUMNAS EN TABLETS --- */
+}
+
+/* Móviles */
+@media (max-width: 768px) {
+    body {
+        padding-top: 130px;
+        font-size: 0.85rem;
+    }
+    html { /* Ajuste de scroll-padding-top para móviles */
+        scroll-padding-top: 130px; /* Adapta este valor si tu header es más pequeño en móviles */
+    }
+    h1 {
+        font-size: 1.6rem;
+    }
+    .header-logo-section {
+        padding: 0.5em 10px;
+    }
+    .header-logo-section img {
+        max-width: 100px; /* Reducir un poco más el logo en móviles */
+    }
+    .header-logo-section h1 {
+        font-size: 1.6rem; /* Ajuste para el eslogan h1 en el header */
+    }
+    h2 {
+        font-size: 1.4rem;
+    }
+    #intro {
+        font-size: 0.9rem;
+        padding: 2em 1em;
+    }
+    #productos-grid, .aplicaciones-grid, .testimonio-grid {
+        grid-template-columns: 1fr; /* Una columna en móviles */
+        gap: 20px;
+    }
+    .main-nav {
+        padding: 0.5em 10px;
+    }
+    .main-nav ul {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+    .main-nav ul li a {
+        font-size: 0.85rem;
+    }
+    section {
+        padding: 2em 1em;
+        margin-bottom: 1.5em;
+    }
+    .producto-info h3 {
+        font-size: 1rem;
+    }
+    .producto-info .descripcion-corta {
+        font-size: 0.8rem;
+    }
+    .boton-ver-mas, button[type="submit"] {
+        font-size: 0.85rem;
+    }
+    .aplicacion-number {
+        font-size: 1.8rem;
+    }
+    .recomendaciones {
+        font-size: 0.9rem;
+    }
+    .testimonio-item p {
+        font-size: 0.85rem;
+    }
+    .testimonio-item cite {
+        font-size: 0.8em;
+    }
+    .contacto label, .contacto input[type="text"], .contacto input[type="email"], .contacto input[type="tel"], .contacto select, .contacto textarea, .contacto input::placeholder, .contacto textarea::placeholder, .form-success-message {
+        font-size: 0.85rem;
+    }
+    .modal-content {
+        width: 95%;
+        padding: 1.5em;
+    }
+    .close-button {
+        top: 10px;
+        right: 15px;
+        font-size: 1.8rem;
+    }
+    .modal-content h2 {
+        font-size: 1.4rem;
+    }
+    .modal-content p, .modal-content #modal-price, .modal-content #modal-category, .modal-content #modal-caracteristicas, .modal-content #modal-origen, .modal-content #modal-usos, .modal-content #modal-mantenimiento {
+        font-size: 0.85rem;
+    }
+    .modal-content #modal-price {
+        font-size: 0.95rem;
+    }
+
+    /* Media queries para el banner de privacidad en móviles */
+    #privacy-banner {
+        padding: 10px;
+        font-size: 0.8rem;
+        flex-direction: column; /* Apilar en móviles */
+        gap: 8px;
+    }
+    #privacy-banner p {
+        flex-basis: auto; /* Restablecer base para apilado */
+    }
+    #privacy-banner button {
+        padding: 7px 12px;
+        font-size: 0.85rem;
+    }
+    /* Estilos del modal de política para móviles */
+    .policy-modal-content {
+        padding: 1.5em;
+    }
+    .policy-modal-content h1 {
+        font-size: 1.6rem;
+    }
+    .policy-modal-content h2 {
+        font-size: 1.4rem;
+    }
+    .policy-modal-content p, .policy-modal-content ul li {
+        font-size: 0.85rem;
+    }
+    .policy-modal-content .boton-ver-mas {
+        padding: 0.7em 1.2em;
+    }
+
+    /* --- MEDIA QUERIES AÑADIDAS PARA EL LAYOUT DE 3 COLUMNAS EN MÓVILES (similares a tablets) --- */
+    /* En móviles, ya se apilarán por la media query de tablets, solo ajustamos padding/font-size si es necesario */
+    .main-layout-container {
+        padding: 0 10px; /* Ajuste de padding para pantallas más pequeñas */
+    }
+
+    aside {
+        padding: var(--spacing-md); /* Mantener padding interno */
+    }
+    /* --- FIN DE MEDIA QUERIES AÑADIDAS PARA EL LAYOUT DE 3 COLUMNAS EN MÓVILES --- */
+}
+
+
+
+/* ============================================== */
+/* === INICIO DE ESTILOS AÑADIDOS PARA EL CARRUSEL DE OFERTAS === */
+/* ============================================== */
+
+/* Estilos de la sección del carrusel */
+.offer-carousel-section {
+    max-width: 550px; /* Ligeramente más estrecho para un diseño más compacto, puedes ajustar a 600px si prefieres */
+    margin: 10px auto; /* Reducido el margen */
+    padding: 8px; /* Reducido el padding */
+    background-color: var(--color-background-light);
+    border-radius: var(--border-radius-base);
+    box-shadow: var(--shadow-medium);
+    text-align: center;
+    border: 1px solid var(--color-border-subtle);
+}
+
+.offer-carousel-section h2 {
+    font-family: var(--font-heading);
+    color: var(--color-accent-primary);
+    margin-bottom: 8px; /* Ajustado margen inferior */
+    font-size: 16px; /* Título principal más pequeño */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+}
+
+/* Contenedor principal del carrusel (incluye botones y contenido) */
+.carousel-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Ajustado el espacio entre botones y contenido */
+}
+
+/* Botones de navegación del carrusel */
+.carousel-nav-btn {
+    background-color: var(--color-brand-green);
+    color: var(--color-white);
+    border: none;
+    border-radius: 50%;
+    width: 30px; /* Botones más pequeños */
+    height: 30px; /* Botones más pequeños */
+    font-size: 14px; /* Icono/flecha más pequeña */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-light);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.carousel-nav-btn:hover {
+    background-color: var(--color-accent-dark);
+    transform: scale(1.05);
+}
+
+.carousel-nav-btn:active {
+    transform: scale(0.95);
+}
+
+/* Área de contenido del carrusel (donde se muestra la oferta actual) */
+.carousel-content {
+    flex-grow: 1;
+    max-width: 400px; /* Ajustado para un diseño más compacto, puedes ajustar si necesitas más ancho */
+    height: 90px; /* ¡REDUCIDO SIGNIFICATIVAMENTE LA ALTURA! */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    gap: 10px; /* Reducido el espacio entre los elementos internos */
+    padding: 8px; /* Reducido el padding interno */
+    background-color: var(--color-white);
+    border-radius: var(--border-radius-base);
+    border: 1px solid var(--color-border-subtle);
+    box-shadow: var(--shadow-light);
+    transition: opacity 0.5s ease-in-out; /* ¡Esta es clave para el auto-movimiento suave! */
+}
+
+.carousel-content img {
+    max-width: 70px; /* Imagen más pequeña */
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid var(--color-border-subtle);
+}
+
+.carousel-content > div { /* Contenedor para el texto y el botón */
+    flex-grow: 1;
+    text-align: center;
+    max-width: 200px; /* Ajustado para el nuevo ancho */
+}
+
+.carousel-content h3 {
+    font-family: var(--font-primary);
+    font-size: 12px; /* Título de la oferta más pequeño */
+    color: var(--color-text-dark);
+    margin-top: 0;
+    margin-bottom: 3px; /* Margen reducido */
+    font-weight: 600;
+    line-height: 1.2; /* Ajustado para texto más compacto */
+}
+
+.carousel-content p {
+    font-size: 9px; /* Descripción de la oferta más pequeña */
+    color: var(--color-text-light);
+    margin-top: 0;
+    margin-bottom: 5px; /* Margen reducido */
+    text-align: center;
+    line-height: 1.3; /* Ajustado para texto más compacto */
+}
+
+.carousel-offer-button {
+    display: inline-block;
+    background-color: var(--color-accent-primary);
+    color: var(--color-white);
+    padding: 5px 12px; /* Botón más pequeño */
+    text-decoration: none;
+    border-radius: 15px; /* Bordes redondeados ajustados */
+    font-weight: bold;
+    font-size: 10px; /* Texto del botón más pequeño */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 3px; /* Margen reducido */
+}
+
+.carousel-offer-button:hover {
+    background-color: var(--color-accent-dark);
+    transform: translateY(-1px);
+}
+
+/* Responsive para pantallas más pequeñas */
+@media (max-width: 768px) {
+    .offer-carousel-section {
+        max-width: 95%; /* Mantenemos un buen ancho en móvil */
+        margin: 8px auto;
+        padding: 6px;
+    }
+    .offer-carousel-section h2 {
+        font-size: 15px;
+        margin-bottom: 6px;
+    }
+    .carousel-container {
+        gap: 6px;
+    }
+    .carousel-nav-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+        margin-top: 6px;
+    }
+    .carousel-content {
+        flex-direction: column; /* Mantenemos en columna para móvil */
+        height: auto; /* Altura automática para adaptarse al contenido */
+        padding: 8px;
+        gap: 8px;
+        align-items: center;
+        text-align: center;
+        max-width: 100%;
+    }
+    .carousel-content img {
+        max-width: 60%; /* Imagen más pequeña en móvil */
+    }
+    .carousel-content > div {
+        text-align: center;
+        max-width: 100%;
+    }
+    .carousel-content h3 {
+        font-size: 12px; /* Título más pequeño en móvil */
+    }
+    .carousel-content p {
+        font-size: 9px; /* Descripción más pequeña en móvil */
+    }
+    .carousel-offer-button {
+        font-size: 10px; /* Botón más pequeño en móvil */
+        padding: 5px 12px;
+    }
+}
+
+/* ============================================== */
+/* === FIN DE ESTILOS AÑADIDOS PARA EL CARRUSEL DE OFERTAS === */
+/* ============================================== */
+
+
+
+
