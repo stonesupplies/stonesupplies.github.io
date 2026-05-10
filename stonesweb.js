@@ -3,13 +3,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // *******************************************************
     // 1. Smooth Scrolling y navegación activa
     // *******************************************************
-    document.querySelectorAll('a[href^="#"]:not(#carousel-affiliate-link)').forEach(anchor => {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault();
             const targetId = this.getAttribute('href');
-            if (targetId === '#policy-modal-overlay') { openPolicyModal(); return; }
+            if (targetId === '#' || targetId === '#policy-modal-overlay') {
+                e.preventDefault();
+                if (targetId === '#policy-modal-overlay') openPolicyModal();
+                return;
+            }
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
+                e.preventDefault();
                 targetElement.scrollIntoView({ behavior: 'smooth' });
                 document.querySelectorAll('.main-nav ul li a').forEach(link => link.classList.remove('active'));
                 if (!this.classList.contains('modal-link')) this.classList.add('active');
@@ -26,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const id = entry.target.id;
                 navLinks.forEach(link => {
                     link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${id}` && !link.classList.contains('modal-link'))
+                    if (link.getAttribute('href') === `#${id}`)
                         link.classList.add('active');
                 });
             }
@@ -35,62 +39,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sectionsToObserve.forEach(section => observerNav.observe(section));
 
-    if (window.location.hash === '' || window.location.hash === '#') {
-        const homeLink = document.querySelector('.main-nav ul li a[href="#intro"]');
-        if (homeLink) homeLink.classList.add('active');
-    }
+    // *******************************************************
+    // 2. Filtros de productos
+    // *******************************************************
+    const filtrosBtns = document.querySelectorAll('.filtro-btn');
+    const todosProductos = document.querySelectorAll('.producto[data-filtro]');
 
-    // ************************************************************
-    // 2. Carrusel de Ofertas (AliExpress)
-    // ************************************************************
-    const offers = [
-        { name: "Báscula Digital de cocina, Mini cuchara, báscula electrónica LCD envío GRATIS a COLOMBIA", image: "forogramera.jpg", affiliateLink: "https://s.click.aliexpress.com/e/_ok6uPI0" },
-        { name: "Comedero gato WIFI automático para gatos WIFI ,Envío GRATIS a COLOMBIA", image: "cosodegato.jpg", affiliateLink: "https://s.click.aliexpress.com/e/_oDqX83q" },
-        { name: "Lenovo-auriculares inalámbricos LP6 TWS - envío GRATIS a COLOMBIA", image: "audifonoslenovo.jpg", affiliateLink: "https://s.click.aliexpress.com/e/_oCNdkN6" },
-        { name: "A9Pro Auriculares intrauditivos Bluetooth - Envío GRATIS a COLOMBIA", image: "audifonos2.jpg", affiliateLink: "https://s.click.aliexpress.com/e/_ooqymla" }
-    ];
+    filtrosBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filtrosBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filtro = btn.dataset.filtro;
 
-    let currentOfferIndex = 0;
-    const carouselImage = document.getElementById('carousel-offer-image');
-    const carouselTitle = document.getElementById('carousel-offer-title');
-    const carouselDescription = document.getElementById('carousel-offer-description');
-    const carouselAffiliateLink = document.getElementById('carousel-affiliate-link');
-    const prevButton = document.getElementById('carousel-prev-btn');
-    const nextButton = document.getElementById('carousel-next-btn');
-    const carouselContentContainer = document.querySelector('.carousel-content');
+            todosProductos.forEach(prod => {
+                if (filtro === 'todos' || prod.dataset.filtro.includes(filtro)) {
+                    prod.style.display = '';
+                } else {
+                    prod.style.display = 'none';
+                }
+            });
 
-    const showOffer = (index) => {
-        if (!carouselImage || !carouselTitle || !carouselDescription || !carouselAffiliateLink || !carouselContentContainer) return;
-        carouselContentContainer.style.opacity = '0';
-        setTimeout(() => {
-            const offer = offers[index];
-            carouselImage.src = offer.image;
-            carouselImage.alt = offer.name;
-            carouselTitle.textContent = offer.name;
-            carouselDescription.textContent = "";
-            carouselAffiliateLink.href = offer.affiliateLink;
-            carouselAffiliateLink.target = "_blank";
-            carouselAffiliateLink.rel = "noopener noreferrer sponsored";
-            carouselContentContainer.style.opacity = '1';
-        }, 300);
-    };
+            // Re-inicializar el carrusel cuando cambia el filtro
+            goTo(0);
+        });
+    });
 
-    let autoSlideInterval;
-    const startAutoSlide = () => { stopAutoSlide(); autoSlideInterval = setInterval(() => { currentOfferIndex = (currentOfferIndex + 1) % offers.length; showOffer(currentOfferIndex); }, 5000); };
-    const stopAutoSlide = () => clearInterval(autoSlideInterval);
-    const resetAutoSlide = () => { stopAutoSlide(); startAutoSlide(); };
-
-    if (carouselImage && carouselTitle && carouselDescription && carouselAffiliateLink && prevButton && nextButton && carouselContentContainer) {
-        showOffer(currentOfferIndex);
-        prevButton.addEventListener("click", () => { currentOfferIndex = (currentOfferIndex - 1 + offers.length) % offers.length; showOffer(currentOfferIndex); resetAutoSlide(); });
-        nextButton.addEventListener("click", () => { currentOfferIndex = (currentOfferIndex + 1) % offers.length; showOffer(currentOfferIndex); resetAutoSlide(); });
-        startAutoSlide();
-    }
-
-    // ************************************************************
+    // *******************************************************
     // 3. Carrusel de Productos (AUTO-PLAY)
-    // ************************************************************
+    // *******************************************************
     const productosGrid = document.getElementById('productos-grid');
+    let goTo = () => {};
 
     if (productosGrid) {
         const productCards = Array.from(productosGrid.querySelectorAll('.producto'));
@@ -138,6 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 return 3;
             };
 
+            const getVisibleCards = () => Array.from(track.querySelectorAll('.producto')).filter(c => c.style.display !== 'none');
+
             const getCardWidth = () => {
                 const card = track.querySelector('.producto');
                 if (!card) return 320;
@@ -147,7 +127,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const buildDots = () => {
                 dotsContainer.innerHTML = '';
                 const visible = getVisibleCount();
-                const pages = Math.ceil(productCards.length / visible);
+                const cards = getVisibleCards();
+                const pages = Math.ceil(cards.length / visible);
                 for (let i = 0; i < pages; i++) {
                     const dot = document.createElement('span');
                     if (i === 0) dot.classList.add('active');
@@ -164,9 +145,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             };
 
-            const goTo = (index) => {
+            goTo = (index) => {
                 const visible = getVisibleCount();
-                const maxIndex = productCards.length - visible;
+                const cards = getVisibleCards();
+                const maxIndex = Math.max(0, cards.length - visible);
                 prodIndex = Math.max(0, Math.min(index, maxIndex));
                 track.style.transform = `translateX(-${prodIndex * getCardWidth()}px)`;
                 updateDots();
@@ -174,14 +156,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const nextProd = () => {
                 const visible = getVisibleCount();
+                const cards = getVisibleCards();
                 const newIndex = prodIndex + visible;
-                goTo(newIndex >= productCards.length ? 0 : newIndex);
+                goTo(newIndex >= cards.length ? 0 : newIndex);
             };
 
             const prevProd = () => {
                 const visible = getVisibleCount();
+                const cards = getVisibleCards();
                 const newIndex = prodIndex - visible;
-                goTo(newIndex < 0 ? Math.max(0, productCards.length - visible) : newIndex);
+                goTo(newIndex < 0 ? Math.max(0, cards.length - visible) : newIndex);
             };
 
             const resetProdAutoplay = () => {
@@ -212,7 +196,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // *******************************************************
-    // 4. Animación de elementos al hacer scroll
+    // 4. Calculadora de área
+    // *******************************************************
+    const calcBtn = document.getElementById('calc-btn');
+    const calcResultado = document.getElementById('calc-resultado');
+
+    if (calcBtn) {
+        calcBtn.addEventListener('click', () => {
+            const area = parseFloat(document.getElementById('calc-area').value);
+            const prodVal = document.getElementById('calc-producto').value;
+
+            if (!area || area <= 0 || !prodVal) {
+                alert('Por favor ingresa el área y selecciona un producto.');
+                return;
+            }
+
+            const [precioStr, rendimientoStr, unidad] = prodVal.split('|');
+            const precio = parseInt(precioStr);
+            const rendimiento = parseFloat(rendimientoStr);
+
+            const cantidad = Math.ceil(area / rendimiento);
+            const cantidadExtra = Math.ceil(cantidad * 1.1);
+            const costoBase = cantidad * precio;
+            const costoExtra = cantidadExtra * precio;
+
+            const label = unidad === 'bulto' ? 'bulto(s)' : 'm³';
+
+            document.getElementById('res-cantidad').textContent = `${cantidad} ${label}`;
+            document.getElementById('res-precio').textContent = `$${costoBase.toLocaleString('es-CO')}`;
+            document.getElementById('res-extra').textContent = `${cantidadExtra} ${label} (~$${costoExtra.toLocaleString('es-CO')})`;
+
+            const msg = encodeURIComponent(`Hola, calculé que necesito ${cantidadExtra} ${label} para cubrir ${area} m². ¿Pueden darme una cotización exacta?`);
+            document.getElementById('calc-whatsapp-btn').href = `https://wa.me/573178626912?text=${msg}`;
+
+            calcResultado.style.display = 'block';
+        });
+    }
+
+    // *******************************************************
+    // 5. Animación de elementos al hacer scroll
     // *******************************************************
     const sections = document.querySelectorAll('section');
     const scrollObserver = new IntersectionObserver((entries) => {
@@ -221,45 +243,30 @@ document.addEventListener('DOMContentLoaded', () => {
     sections.forEach(section => scrollObserver.observe(section));
 
     // *******************************************************
-    // 5. Modal de detalles de productos
+    // 6. Modal de detalles de productos
     // *******************************************************
     const modalOverlay = document.getElementById('modal-overlay');
     const closeButton = document.getElementById('close-button');
     const productosGridEl = document.getElementById('productos-grid');
 
-    const modalName = document.getElementById('modal-name');
-    const modalImage = document.getElementById('modal-image');
-    const modalDescription = document.getElementById('modal-description');
-    const modalPrice = document.getElementById('modal-price');
-    const modalCategory = document.getElementById('modal-category');
-    const modalCaracteristicas = document.getElementById('modal-caracteristicas');
-    const modalOrigen = document.getElementById('modal-origen');
-    const modalUsos = document.getElementById('modal-usos');
-    const modalMantenimiento = document.getElementById('modal-mantenimiento');
-    const modalProductAffiliateLink = document.getElementById('modal-product-affiliate-link');
-
     const openProductModal = (product) => {
         if (!modalOverlay) return;
-        modalName.textContent = product.name;
-        modalImage.src = product.image;
-        modalImage.alt = product.name;
-        modalDescription.textContent = product.description;
-        modalPrice.textContent = product.price;
-        modalCategory.textContent = product.category;
-        modalCaracteristicas.textContent = product.caracteristicas;
-        modalOrigen.textContent = product.origen || 'No especificado';
-        modalUsos.textContent = product.usos || 'No especificados';
-        modalMantenimiento.textContent = product.mantenimiento || 'No especificado';
-        if (modalProductAffiliateLink) {
-            if (product.affiliateLink) {
-                modalProductAffiliateLink.href = product.affiliateLink;
-                modalProductAffiliateLink.style.display = 'inline-block';
-                modalProductAffiliateLink.target = "_blank";
-                modalProductAffiliateLink.rel = "noopener noreferrer sponsored";
-            } else {
-                modalProductAffiliateLink.style.display = 'none';
-            }
+        document.getElementById('modal-name').textContent = product.name;
+        document.getElementById('modal-image').src = product.image;
+        document.getElementById('modal-image').alt = product.name;
+        document.getElementById('modal-description').textContent = product.description;
+        document.getElementById('modal-price').textContent = product.price;
+        document.getElementById('modal-category').textContent = product.category;
+        document.getElementById('modal-caracteristicas').textContent = product.caracteristicas;
+        document.getElementById('modal-origen').textContent = product.origen || 'No especificado';
+        document.getElementById('modal-usos').textContent = product.usos || 'No especificados';
+        document.getElementById('modal-mantenimiento').textContent = product.mantenimiento || 'No especificado';
+
+        const waLink = document.getElementById('modal-whatsapp-link');
+        if (waLink && product.whatsapp) {
+            waLink.href = `https://wa.me/573178626912?text=${product.whatsapp}`;
         }
+
         modalOverlay.classList.add('active');
         document.body.style.overflow = 'hidden';
     };
@@ -270,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (productosGridEl) {
         productosGridEl.addEventListener('click', (event) => {
-            if (event.target.classList.contains('boton-ver-mas')) {
+            if (event.target.classList.contains('boton-ver-mas') || event.target.closest('.boton-ver-mas')) {
                 const productDiv = event.target.closest('.producto');
                 if (productDiv) {
                     openProductModal({
@@ -283,7 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         origen: productDiv.dataset.origen,
                         usos: productDiv.dataset.usos,
                         mantenimiento: productDiv.dataset.mantenimiento,
-                        affiliateLink: productDiv.dataset.affiliateLink
+                        whatsapp: productDiv.dataset.whatsapp
                     });
                 }
             }
@@ -295,20 +302,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && modalOverlay?.classList.contains('active')) closeProductModal(); });
 
     // *******************************************************
-    // 6. Formulario de contacto
+    // 7. Formulario de contacto
     // *******************************************************
     const contactForm = document.getElementById('contact-form');
     const formSuccessMessage = document.getElementById('form-success-message');
-
-    function getCookie(name) {
-        const nameEQ = name + "=";
-        const ca = document.cookie.split(';');
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i].trimStart();
-            if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length));
-        }
-        return null;
-    }
 
     if (localStorage.getItem("formularioEnviado") === "true" && formSuccessMessage && contactForm) {
         contactForm.style.display = "none";
@@ -319,23 +316,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (contactForm) {
         contactForm.addEventListener('submit', function (event) {
             event.preventDefault();
-            const fechaHora = new Date().toLocaleString();
             const formData = new FormData(contactForm);
-            formData.append('fecha_hora', fechaHora);
+            formData.append('fecha_hora', new Date().toLocaleString());
             formData.append('navegador', navigator.userAgent);
             formData.append('resolucion', `${window.screen.width}x${window.screen.height}`);
-            formData.append('cookies_enabled', navigator.cookieEnabled ? 'Enabled' : 'Disabled');
-            formData.append('cookie_consent_status', localStorage.getItem('cookiesAccepted') === 'true' ? 'Aceptadas' : 'No aceptadas');
-            const gaCookie = getCookie('_ga');
-            if (gaCookie) formData.append('ga4_client_id', gaCookie);
-            formData.append('all_browser_cookies_string', document.cookie);
-
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    pos => { formData.append('user_location', `Lat: ${pos.coords.latitude}, Lon: ${pos.coords.longitude}`); sendForm(formData); },
-                    () => { formData.append('user_location', 'No disponible'); sendForm(formData); }
-                );
-            } else { formData.append('user_location', 'No soportada'); sendForm(formData); }
+            sendForm(formData);
         });
     }
 
@@ -378,7 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // *******************************************************
-    // 7. Banner de privacidad y Modal de política
+    // 8. Banner de privacidad y Modal de política
     // *******************************************************
     const privacyBanner = document.getElementById('privacy-banner');
     const acceptCookiesButton = document.getElementById('accept-cookies');
@@ -398,10 +383,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (policyModalOverlay) {
             policyModalOverlay.classList.add('active');
             document.body.style.overflow = 'hidden';
-            if (privacyBanner?.classList.contains('is-visible')) {
-                privacyBanner.classList.remove('is-visible');
-                setTimeout(() => { privacyBanner.style.display = 'none'; }, 500);
-            }
         }
     };
 
@@ -410,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     if (!localStorage.getItem('cookiesAccepted')) {
-        if (privacyBanner) setTimeout(() => { privacyBanner.classList.add('is-visible'); }, 100);
+        if (privacyBanner) setTimeout(() => { privacyBanner.classList.add('is-visible'); }, 1500);
     } else { setCookie('user_cookie_consent', 'accepted', 365); }
 
     const acceptAndHideBanner = () => {
