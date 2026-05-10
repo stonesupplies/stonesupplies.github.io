@@ -1,10 +1,7 @@
 /* --- Variables de Fuentes y Colores --- */
 :root {
-    /* Fuentes */
     --font-primary: 'Montserrat', sans-serif;
     --font-heading: 'Playfair Display', serif;
-
-    /* Colores */
     --color-text: #080808;
     --color-accent: #B08D57;
     --color-accent-dark: #8D7045;
@@ -14,8 +11,6 @@
     --color-brand: #050202;
     --color-white: #FFFFFF;
     --color-black: #dfd8d8;
-
-    /* Espaciado y Sombras */
     --space-sm: 1rem;
     --space-md: 2rem;
     --space-lg: 3rem;
@@ -24,20 +19,17 @@
     --radius: 8px;
 }
 
-/* --- Reset Básico --- */
 *, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* --- Desplazamiento y Ajuste para Header --- */
 html {
     scroll-behavior: smooth;
     scroll-padding-top: 150px;
 }
 
-/* --- Estilos Generales --- */
 body {
     font-family: var(--font-primary);
     line-height: 1.6;
@@ -47,40 +39,17 @@ body {
     padding-top: 150px;
 }
 
-/* --- Títulos --- */
 h1, h2, h3 {
     font-family: var(--font-heading);
     color: var(--color-text);
     text-align: center;
 }
 
-h1 {
-    font-size: 2.8rem;
-    font-weight: 700;
-    color: var(--color-accent);
-}
-
-h2 {
-    font-size: 2rem;
-    font-weight: 600;
-    color: var(--color-brand);
-    margin-bottom: var(--space-sm);
-}
-
-h3 {
-    font-size: 1.4rem;
-    font-weight: 600;
-}
-
-p {
-    font-size: 1rem;
-    margin-bottom: var(--space-sm);
-}
-
-strong {
-    font-weight: 700;
-    color: var(--color-brand);
-}
+h1 { font-size: 2.8rem; font-weight: 700; color: var(--color-accent); }
+h2 { font-size: 2rem; font-weight: 600; color: var(--color-brand); margin-bottom: var(--space-sm); }
+h3 { font-size: 1.4rem; font-weight: 600; }
+p { font-size: 1rem; margin-bottom: var(--space-sm); }
+strong { font-weight: 700; color: var(--color-brand); }
 
 /* --- Header --- */
 header {
@@ -103,21 +72,11 @@ header {
     padding: 1rem;
 }
 
-.header-logo-section img {
-    max-width: 160px;
-    height: auto;
-}
+.header-logo-section img { max-width: 160px; height: auto; }
+.header-logo-section h1 { font-size: 2rem; font-weight: 500; }
 
-.header-logo-section h1 {
-    font-size: 2rem;
-    font-weight: 500;
-}
-
-/* --- Navegación Principal --- */
-.main-nav {
-    background: var(--color-black);
-    padding: 0.5rem 1rem;
-}
+/* --- Navegación --- */
+.main-nav { background: var(--color-black); padding: 0.5rem 1rem; }
 
 .main-nav ul {
     list-style: none;
@@ -143,10 +102,7 @@ header {
     border-bottom-color: var(--color-accent);
 }
 
-.main-nav a:focus {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-}
+.main-nav a:focus { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 
 /* --- Secciones --- */
 section {
@@ -159,13 +115,9 @@ section {
     text-align: center;
 }
 
-/* --- Introducción --- */
-#intro p {
-    max-width: 800px;
-    margin: 0 auto var(--space-sm);
-}
+#intro p { max-width: 800px; margin: 0 auto var(--space-sm); }
 
-/* --- Carrusel de Ofertas --- */
+/* --- Carrusel de Ofertas (AliExpress) --- */
 .offer-carousel-section {
     max-width: 600px;
     margin: 0.5rem auto;
@@ -175,17 +127,9 @@ section {
     box-shadow: var(--shadow-light);
 }
 
-.offer-carousel-section h2 {
-    font-size: 1.4rem;
-    color: var(--color-accent);
-    margin-bottom: 0.5rem;
-}
+.offer-carousel-section h2 { font-size: 1.4rem; color: var(--color-accent); margin-bottom: 0.5rem; }
 
-.carousel-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
+.carousel-container { display: flex; align-items: center; gap: 0.5rem; }
 
 .carousel-nav-btn {
     background: var(--color-brand);
@@ -199,10 +143,7 @@ section {
     transition: background 0.2s;
 }
 
-.carousel-nav-btn:hover, .carousel-nav-btn:focus {
-    background: var(--color-accent-dark);
-    outline: none;
-}
+.carousel-nav-btn:hover, .carousel-nav-btn:focus { background: var(--color-accent-dark); outline: none; }
 
 .carousel-content {
     flex-grow: 1;
@@ -214,27 +155,13 @@ section {
     background: var(--color-white);
     border-radius: var(--radius);
     border: 1px solid var(--color-border);
+    transition: opacity 0.3s ease;
 }
 
-.carousel-content img {
-    max-width: 100px;
-    height: auto;
-    border-radius: 4px;
-}
-
-.carousel-content div {
-    text-align: center;
-}
-
-.carousel-content h3 {
-    font-size: 1rem;
-    margin-bottom: 0.3rem;
-}
-
-.carousel-content p {
-    font-size: 0.9rem;
-    margin-bottom: 0.3rem;
-}
+.carousel-content img { max-width: 100px; height: auto; border-radius: 4px; }
+.carousel-content div { text-align: center; }
+.carousel-content h3 { font-size: 1rem; margin-bottom: 0.3rem; }
+.carousel-content p { font-size: 0.9rem; margin-bottom: 0.3rem; }
 
 .carousel-offer-button {
     background: var(--color-accent);
@@ -246,57 +173,118 @@ section {
     transition: background 0.2s;
 }
 
-.carousel-offer-button:hover, .carousel-offer-button:focus {
-    background: var(--color-accent-dark);
-    outline: none;
+.carousel-offer-button:hover, .carousel-offer-button:focus { background: var(--color-accent-dark); outline: none; }
+
+/* =====================================================
+   CARRUSEL DE PRODUCTOS
+   ===================================================== */
+
+#productos {
+    overflow: hidden;
 }
 
-/* --- Productos --- */
+#productos h2 {
+    margin-bottom: var(--space-md);
+}
+
 #productos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: var(--space-md);
-    max-width: 1000px;
+    /* Quitamos el display:grid para que el JS tome el control */
+    display: block;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
-.producto {
+.productos-carousel-wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding: 8px 48px 16px; /* espacio lateral para las flechas */
+}
+
+.productos-carousel-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+    align-items: stretch;
+}
+
+/* Tarjetas dentro del carrusel */
+.productos-carousel-track .producto {
+    flex: 0 0 calc(33.333% - 16px);
+    min-width: calc(33.333% - 16px);
+    margin: 0 8px;
+    box-sizing: border-box;
+    /* Mantener estilos originales */
     background: var(--color-white);
     border-radius: var(--radius);
     box-shadow: var(--shadow-light);
-    transition: transform 0.2s;
     text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.producto:hover {
-    transform: translateY(-3px);
+.productos-carousel-track .producto:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-medium);
 }
 
-.producto img {
+.productos-carousel-track .producto img {
     width: 100%;
     height: 180px;
     object-fit: cover;
+    border-radius: var(--radius) var(--radius) 0 0;
     border-bottom: 1px solid var(--color-border);
 }
 
-.producto-info {
-    padding: 1rem;
+/* Flechas del carrusel de productos */
+.prod-carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-65%);
+    background: var(--color-brand);
+    color: var(--color-white);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.2s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
 }
 
-.producto-info h3 {
-    font-size: 1.2rem;
-    color: var(--color-brand);
+.prod-carousel-btn:hover {
+    background: var(--color-accent);
+    transform: translateY(-65%) scale(1.1);
 }
 
-.producto-info .descripcion-corta {
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
+.prod-carousel-prev { left: 4px; }
+.prod-carousel-next { right: 4px; }
+
+/* Puntos de navegación */
+.prod-carousel-dots {
+    text-align: center;
+    margin-top: 16px;
+    padding-bottom: 4px;
 }
 
-.producto-info .precio {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--color-accent);
+.prod-carousel-dots span {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: #ccc;
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.prod-carousel-dots span.active {
+    background: var(--color-accent);
+    transform: scale(1.35);
 }
 
 /* --- Aplicaciones --- */
@@ -316,17 +304,8 @@ section {
     text-align: center;
 }
 
-.aplicacion-icono {
-    width: 80px;
-    height: 80px;
-    margin-bottom: var(--space-sm);
-}
-
-.aplicacion-number {
-    font-family: var(--font-heading);
-    font-size: 2rem;
-    color: var(--color-accent);
-}
+.aplicacion-icono { width: 80px; height: 80px; margin-bottom: var(--space-sm); }
+.aplicacion-number { font-family: var(--font-heading); font-size: 2rem; color: var(--color-accent); }
 
 /* --- Testimonios --- */
 .testimonio-grid {
@@ -344,18 +323,10 @@ section {
     box-shadow: var(--shadow-light);
 }
 
-.testimonio-item p {
-    font-style: italic;
-    font-size: 0.9rem;
-}
+.testimonio-item p { font-style: italic; font-size: 0.9rem; }
+.testimonio-item cite { font-weight: 600; color: var(--color-accent); font-size: 0.9rem; }
 
-.testimonio-item cite {
-    font-weight: 600;
-    color: var(--color-accent);
-    font-size: 0.9rem;
-}
-
-/* --- Formulario de Contacto --- */
+/* --- Formulario --- */
 .contacto form {
     max-width: 600px;
     margin: 0 auto;
@@ -365,14 +336,9 @@ section {
     box-shadow: var(--shadow-light);
 }
 
-.contacto label {
-    display: block;
-    font-weight: 600;
-    font-size: 0.95rem;
-    margin-bottom: 0.5rem;
-}
+.contacto label { display: block; font-weight: 600; font-size: 0.95rem; margin-bottom: 0.5rem; }
 
-.contacto input, .contacto textarea {
+.contacto input, .contacto textarea, .contacto select {
     width: 100%;
     padding: 0.7rem;
     margin-bottom: 1rem;
@@ -382,14 +348,8 @@ section {
     background: var(--color-bg-soft);
 }
 
-.contacto textarea {
-    resize: vertical;
-}
-
-.contacto input::placeholder, .contacto textarea::placeholder {
-    color: var(--color-text);
-    opacity: 0.7;
-}
+.contacto textarea { resize: vertical; }
+.contacto input::placeholder, .contacto textarea::placeholder { color: var(--color-text); opacity: 0.7; }
 
 .form-success-message {
     display: none;
@@ -412,9 +372,11 @@ section {
     font-size: 0.9rem;
     cursor: pointer;
     transition: background 0.2s;
+    margin-top: 0.5rem;
 }
 
-.boton-ver-mas:hover, button[type="submit"]:hover, .boton-ver-mas:focus, button[type="submit"]:focus {
+.boton-ver-mas:hover, button[type="submit"]:hover,
+.boton-ver-mas:focus, button[type="submit"]:focus {
     background: var(--color-accent-dark);
     outline: none;
 }
@@ -427,32 +389,22 @@ footer {
     padding: var(--space-md);
 }
 
-footer a {
-    color: var(--color-accent);
-    text-decoration: none;
-}
-
-footer a:hover, footer a:focus {
-    color: var(--color-white);
-}
+footer a { color: var(--color-accent); text-decoration: none; }
+footer a:hover, footer a:focus { color: var(--color-white); }
 
 /* --- Modales --- */
 .modal-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: 2000;
 }
 
-.modal-overlay.active {
-    display: flex;
-}
+.modal-overlay.active { display: flex; }
 
 .modal-content {
     background: var(--color-white);
@@ -461,6 +413,9 @@ footer a:hover, footer a:focus {
     max-width: 600px;
     width: 90%;
     text-align: center;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .modal-content img {
@@ -473,8 +428,7 @@ footer a:hover, footer a:focus {
 
 .close-button {
     position: absolute;
-    top: 10px;
-    right: 15px;
+    top: 10px; right: 15px;
     font-size: 1.8rem;
     color: var(--color-text);
     cursor: pointer;
@@ -482,9 +436,7 @@ footer a:hover, footer a:focus {
     border: none;
 }
 
-.close-button:hover, .close-button:focus {
-    color: var(--color-black);
-}
+.close-button:hover, .close-button:focus { color: var(--color-accent); }
 
 /* --- Banner de Privacidad --- */
 #privacy-banner {
@@ -498,80 +450,89 @@ footer a:hover, footer a:focus {
     justify-content: center;
     gap: 1rem;
     z-index: 9999;
+    transform: translateY(100%);
+    transition: transform 0.5s ease;
 }
 
-#privacy-banner p {
-    font-size: 0.9rem;
+#privacy-banner.is-visible { transform: translateY(0); }
+#privacy-banner p { font-size: 0.9rem; }
+#privacy-banner a { color: var(--color-accent); text-decoration: underline; }
+#privacy-banner button { background: var(--color-accent); padding: 0.5rem 1rem; font-size: 0.9rem; }
+
+/* --- Botones flotantes de contacto --- */
+.floating-contact-container {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
 }
 
-#privacy-banner a {
-    color: var(--color-accent);
-    text-decoration: underline;
+.floating-contact-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: var(--color-white);
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: transform 0.2s, opacity 0.2s;
 }
 
-#privacy-banner button {
-    background: var(--color-accent);
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
+.floating-contact-button.whatsapp { background: #25D366; }
+.floating-contact-button.email { background: var(--color-accent); }
+.floating-contact-button:hover { transform: scale(1.15); opacity: 0.9; }
+
+/* --- Animaciones scroll --- */
+.hidden-element {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-/* --- Media Queries --- */
+section.visible .hidden-element,
+.hidden-element.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
 @media (max-width: 992px) {
-    body {
-        padding-top: 130px;
-        font-size: 0.9rem;
-    }
-    html {
-        scroll-padding-top: 130px;
-    }
-    .header-logo-section {
-        flex-direction: column;
-        padding: 0.8rem;
-    }
-    .header-logo-section img {
-        max-width: 120px;
-    }
-    .header-logo-section h1 {
-        font-size: 1.8rem;
-    }
-    .main-nav ul {
-        gap: 1.5rem;
-    }
-    .main-nav a {
-        font-size: 0.9rem;
-    }
-    #productos-grid, .aplicaciones-grid, .testimonio-grid {
-        grid-template-columns: 1fr;
+    body { padding-top: 130px; font-size: 0.9rem; }
+    html { scroll-padding-top: 130px; }
+    .header-logo-section { flex-direction: column; padding: 0.8rem; }
+    .header-logo-section img { max-width: 120px; }
+    .header-logo-section h1 { font-size: 1.8rem; }
+    .main-nav ul { gap: 1.5rem; }
+    .main-nav a { font-size: 0.9rem; }
+    .aplicaciones-grid, .testimonio-grid { grid-template-columns: 1fr; }
+
+    /* Carrusel: 2 columnas en tablet */
+    .productos-carousel-track .producto {
+        flex: 0 0 calc(50% - 16px);
+        min-width: calc(50% - 16px);
     }
 }
 
 @media (max-width: 768px) {
-    body {
-        padding-top: 100px;
-        font-size: 0.85rem;
+    body { padding-top: 100px; font-size: 0.85rem; }
+    html { scroll-padding-top: 100px; }
+    .header-logo-section h1 { font-size: 1.5rem; }
+    .main-nav ul { flex-direction: column; gap: 0.8rem; }
+    .carousel-content { flex-direction: column; align-items: center; }
+    .carousel-content img { max-width: 80px; }
+    .modal-content { padding: 1.5rem; }
+    #privacy-banner { flex-direction: column; padding: 0.5rem; }
+
+    /* Carrusel: 1 columna en móvil */
+    .productos-carousel-track .producto {
+        flex: 0 0 calc(100% - 16px);
+        min-width: calc(100% - 16px);
     }
-    html {
-        scroll-padding-top: 100px;
-    }
-    .header-logo-section h1 {
-        font-size: 1.5rem;
-    }
-    .main-nav ul {
-        flex-direction: column;
-        gap: 0.8rem;
-    }
-    .carousel-content {
-        flex-direction: column;
-        align-items: center;
-    }
-    .carousel-content img {
-        max-width: 80px;
-    }
-    .modal-content {
-        padding: 1.5rem;
-    }
-    #privacy-banner {
-        flex-direction: column;
-        padding: 0.5rem;
-    }
+
+    .prod-carousel-btn { width: 34px; height: 34px; font-size: 15px; }
+    .productos-carousel-wrapper { padding: 8px 42px 16px; }
 }
