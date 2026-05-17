@@ -2,20 +2,20 @@
 :root {
     --font-primary: 'Montserrat', sans-serif;
     --font-heading: 'Playfair Display', serif;
-    --color-text: #111111;
-    --color-accent: #2C4A3E;
+    --color-text: #222222;
+    --color-accent: #AFAAA1;
     --color-accent-dark: #3C3C3B;
-    --color-bg-light: #1A1A1A;
-    --color-bg-soft: #24211D;
-    --color-border: #CCCCCC;
-    --color-brand: #1A1A1A;
+    --color-bg-light: #FFFFFF;
+    --color-bg-soft: #262626;
+    --color-border: #D1CFC9;
+    --color-brand: #3C3C3B;
     --color-white: #FFFFFF;
-    --color-black: #E6DEC9;
+    --color-black: #1E1E1E;
     --space-sm: 1rem;
     --space-md: 2rem;
     --space-lg: 3rem;
-    --shadow-light: 0 2px 4px rgba(0,0,0,0.1);
-    --shadow-medium: 0 4px 8px rgba(0,0,0,0.15);
+    --shadow-light: 0 2px 4px rgba(0,0,0,0.08);
+    --shadow-medium: 0 4px 12px rgba(0,0,0,0.12);
     --radius: 8px;
 }
 
