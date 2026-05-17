@@ -265,8 +265,8 @@ section {
 }
 
 .productos-carousel-track .producto {
-    flex: 0 0 calc(33.333% - 16px);
-    min-width: calc(33.333% - 16px);
+    flex: 0 0 calc(25% - 16px);
+    min-width: calc(25% - 16px);
     margin: 0 8px;
     box-sizing: border-box;
     background: var(--color-white);
