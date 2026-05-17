@@ -2,15 +2,15 @@
 :root {
     --font-primary: 'Montserrat', sans-serif;
     --font-heading: 'Playfair Display', serif;
-    --color-text: #080808;
-    --color-accent: #B08D57;
-    --color-accent-dark: #8D7045;
-    --color-bg-light: #FAF6EE;
-    --color-bg-soft: #3D2E1A;
-    --color-border: #D0D0D0;
-    --color-brand: #050202;
+    --color-text: #111111;
+    --color-accent: #8A6D3E;
+    --color-accent-dark: #5F4928;
+    --color-bg-light: #F7F4EB;          /* Fondo arena claro (mantiene la calidez de la piedra) */
+    --color-bg-soft: #24211D;           /* Negro mineral/tierra oscuro (Reemplaza al marrón claro de antes) */
+    --color-border: #CCCCCC;
+    --color-brand: #1A1A1A;             /* Negro carbón mate para elementos de marca */
     --color-white: #FFFFFF;
-    --color-black: #F0E8D8;
+    --color-black: #E6DEC9;
     --space-sm: 1rem;
     --space-md: 2rem;
     --space-lg: 3rem;
@@ -265,8 +265,8 @@ section {
 }
 
 .productos-carousel-track .producto {
-    flex: 0 0 calc(25% - 16px);
-    min-width: calc(25% - 16px);
+    flex: 0 0 calc(15% - 16px);
+    min-width: calc(15% - 16px);
     margin: 0 8px;
     box-sizing: border-box;
     background: var(--color-white);
