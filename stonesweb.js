@@ -59,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // Re-inicializar el carrusel cuando cambia el filtro
             goTo(0);
         });
     });
@@ -176,7 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
             btnNext.addEventListener('click', () => { nextProd(); resetProdAutoplay(); });
             btnPrev.addEventListener('click', () => { prevProd(); resetProdAutoplay(); });
 
-            // Swipe en móvil
             let touchStartX = 0;
             track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
             track.addEventListener('touchend', e => {
@@ -196,42 +194,194 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // *******************************************************
-    // 4. Calculadora de área
+    // 4. COTIZADOR INTEGRADO (calculadora de área + carrito)
     // *******************************************************
-    const calcBtn = document.getElementById('calc-btn');
+
+    const NOMBRES_MATERIALES = {
+        'blanca':        'Piedra Blanca Crystal',
+        'negra':         'Piedra Plana Negra de Río',
+        'multicolor':    'Piedra Multicolor 2-5 cm',
+        'marmol-gris':   'Mármol Jardinero Gris',
+        'marmol-blanco': 'Mármol Blanco 6-7 cm',
+        'triturado':     'Triturado de Piedra 3/4"',
+        'canto':         'Canto Rodado de Río 2-4"',
+        'arena':         'Arena de Río y Peña',
+        'bola':          'Piedra Bola 4-6"'
+    };
+
+    // carrito: array de items para permitir el mismo material varias veces (áreas distintas)
+    // cada item: { uid, id, nombre, qty, unidad, precio, area }
+    const carrito = [];
+    let uidCounter = 0;
+
+    const fmtCOP = (n) => n.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+
+    // Toast de confirmación
+    function mostrarToast(msg) {
+        let toast = document.getElementById('cot-toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'cot-toast';
+            toast.className = 'cot-toast';
+            document.body.appendChild(toast);
+        }
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    function renderCarrito() {
+        const resumen = document.getElementById('cotizador-resumen');
+        const badge   = document.getElementById('cot-badge');
+        const datosWrap = document.getElementById('cot-datos-wrap');
+        if (!resumen) return;
+
+        if (badge) {
+            if (carrito.length > 0) { badge.textContent = carrito.length; badge.style.display = 'inline-flex'; }
+            else badge.style.display = 'none';
+        }
+        if (datosWrap) datosWrap.style.display = carrito.length > 0 ? 'block' : 'none';
+
+        if (!carrito.length) {
+            resumen.innerHTML = `<div class="cot-resumen-vacio"><i class="fas fa-shopping-basket"></i>Aún no has agregado productos</div>`;
+            return;
+        }
+
+        let total = 0;
+        let html = '';
+        carrito.forEach(item => {
+            const sub = item.precio * item.qty;
+            total += sub;
+            const detalleArea = item.area ? ` (${item.area} m²)` : '';
+            html += `
+                <div class="cot-item" data-uid="${item.uid}">
+                    <div class="cot-item-info">
+                        <div class="cot-item-nombre">${item.nombre}</div>
+                        <div class="cot-item-detalle">${item.qty} ${item.unidad}${detalleArea}</div>
+                    </div>
+                    <span class="cot-item-precio">${fmtCOP(sub)}</span>
+                    <button class="cot-item-eliminar" data-uid="${item.uid}" title="Eliminar">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>`;
+        });
+
+        html += `
+            <div class="cot-resumen-total">
+                <span>Total estimado</span>
+                <span class="cot-total-valor">${fmtCOP(total)}</span>
+            </div>
+            <p class="cot-nota">* Precios aproximados. El equipo confirmará el valor final con transporte si aplica.</p>`;
+
+        resumen.innerHTML = html;
+
+        // Botones eliminar
+        resumen.querySelectorAll('.cot-item-eliminar').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const uid = parseInt(btn.dataset.uid);
+                const idx = carrito.findIndex(i => i.uid === uid);
+                if (idx !== -1) carrito.splice(idx, 1);
+                renderCarrito();
+            });
+        });
+    }
+
+    // ── Calculadora ──
+    const calcBtn       = document.getElementById('calc-btn');
     const calcResultado = document.getElementById('calc-resultado');
+    const calcAgregarBtn = document.getElementById('calc-agregar-btn');
+
+    let calcEstado = null; // guarda el resultado actual para agregarlo
 
     if (calcBtn) {
         calcBtn.addEventListener('click', () => {
-            const area = parseFloat(document.getElementById('calc-area').value);
+            const area    = parseFloat(document.getElementById('calc-area').value);
             const prodVal = document.getElementById('calc-producto').value;
 
             if (!area || area <= 0 || !prodVal) {
-                alert('Por favor ingresa el área y selecciona un producto.');
+                alert('Por favor ingresa el área y selecciona un material.');
                 return;
             }
 
-            const [precioStr, rendimientoStr, unidad] = prodVal.split('|');
-            const precio = parseInt(precioStr);
+            const [id, precioStr, rendimientoStr, unidad, tipo] = prodVal.split('|');
+            const precio      = parseInt(precioStr);
             const rendimiento = parseFloat(rendimientoStr);
 
-            const cantidad = Math.ceil(area / rendimiento);
-            const cantidadExtra = Math.ceil(cantidad * 1.1);
-            const costoBase = cantidad * precio;
-            const costoExtra = cantidadExtra * precio;
+            const cantidadExacta = Math.ceil(area / rendimiento);
+            const cantidadExtra  = Math.ceil(cantidadExacta * 1.1);
+            const costoExtra     = cantidadExtra * precio;
 
-            const label = unidad === 'bulto' ? 'bulto(s)' : 'm³';
+            document.getElementById('res-cantidad').textContent = `${cantidadExacta} ${unidad}`;
+            document.getElementById('res-extra').textContent    = `${cantidadExtra} ${unidad} (+10%)`;
+            document.getElementById('res-precio').textContent   = fmtCOP(costoExtra);
 
-            document.getElementById('res-cantidad').textContent = `${cantidad} ${label}`;
-            document.getElementById('res-precio').textContent = `$${costoBase.toLocaleString('es-CO')}`;
-            document.getElementById('res-extra').textContent = `${cantidadExtra} ${label} (~$${costoExtra.toLocaleString('es-CO')})`;
+            calcEstado = { id, nombre: NOMBRES_MATERIALES[id] || id, qty: cantidadExtra, unidad, precio, area };
 
-            const msg = encodeURIComponent(`Hola, calculé que necesito ${cantidadExtra} ${label} para cubrir ${area} m². ¿Pueden darme una cotización exacta?`);
-            document.getElementById('calc-whatsapp-btn').href = `https://wa.me/573178626912?text=${msg}`;
-
-            calcResultado.style.display = 'block';
+            if (calcResultado) calcResultado.style.display = 'block';
         });
     }
+
+    if (calcAgregarBtn) {
+        calcAgregarBtn.addEventListener('click', () => {
+            if (!calcEstado) return;
+            carrito.push({ ...calcEstado, uid: ++uidCounter });
+            renderCarrito();
+            mostrarToast(`✓ ${calcEstado.nombre} agregado`);
+            // Limpiar calculadora
+            document.getElementById('calc-area').value = '';
+            document.getElementById('calc-producto').selectedIndex = 0;
+            if (calcResultado) calcResultado.style.display = 'none';
+            calcEstado = null;
+            // Scroll suave al carrito
+            document.getElementById('cotizador-resumen')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+    }
+
+    // ── WhatsApp ──
+    const cotBtnWa = document.getElementById('cot-btn-wa');
+    if (cotBtnWa) {
+        cotBtnWa.addEventListener('click', () => {
+            if (!carrito.length) { alert('Agrega al menos un producto a tu cotización.'); return; }
+
+            const nombre    = document.getElementById('cot-nombre')?.value.trim();
+            const telefono  = document.getElementById('cot-telefono')?.value.trim();
+            const direccion = document.getElementById('cot-direccion')?.value.trim();
+            const notas     = document.getElementById('cot-notas')?.value.trim();
+
+            let total = 0;
+            let msg = '¡Hola Stones Supplies! Me interesa hacer el siguiente pedido:\n\n';
+            carrito.forEach(it => {
+                const sub = it.precio * it.qty;
+                total += sub;
+                const areaInfo = it.area ? ` para ${it.area} m²` : '';
+                msg += `• ${it.nombre}: ${it.qty} ${it.unidad}${areaInfo} — ${fmtCOP(sub)}\n`;
+            });
+            msg += `\n*Total estimado: ${fmtCOP(total)}*`;
+            if (nombre)    msg += `\n\nNombre: ${nombre}`;
+            if (telefono)  msg += `\nTeléfono: ${telefono}`;
+            if (direccion) msg += `\nDirección: ${direccion}`;
+            if (notas)     msg += `\nNotas: ${notas}`;
+            msg += '\n\nPor favor confirmar disponibilidad y detalles de envío. ¡Gracias!';
+
+            window.open('https://wa.me/573178626912?text=' + encodeURIComponent(msg), '_blank');
+        });
+    }
+
+    // ── Limpiar todo ──
+    const cotBtnReset = document.getElementById('cot-btn-reset');
+    if (cotBtnReset) {
+        cotBtnReset.addEventListener('click', () => {
+            carrito.length = 0;
+            ['cot-nombre','cot-telefono','cot-direccion','cot-notas'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+            renderCarrito();
+        });
+    }
+
+    // Inicializar carrito vacío
+    renderCarrito();
 
     // *******************************************************
     // 5. Animación de elementos al hacer scroll
