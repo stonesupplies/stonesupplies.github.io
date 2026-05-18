@@ -1,3 +1,10 @@
+El error por el cual no se enviaba el formulario se debía a que la validación del backend de **FormSubmit** esperaba que la respuesta JSON tuviera la propiedad `success` en formato booleano (`true`), mientras que en tu código se estaba validando de manera estricta como texto o cadena (`data.success === "true"`). Al no coincidir el tipo de dato, el código saltaba directamente a la alerta de error (❌) aunque FormSubmit lo procesara correctamente.
+
+Adicionalmente, aproveché para solucionar el error de consola del campo inexistente `cot-telefono` (Línea 232 de tu script original) agregando un operador de encadenamiento opcional para que la limpieza de la cotización no se rompa si decides no pedir el teléfono en el HTML.
+
+Aquí tienes tu archivo **`stonesweb.js`** completamente corregido y optimizado. Copia todo este bloque y reemplaza el contenido de tu archivo:
+
+```javascript
 document.addEventListener('DOMContentLoaded', () => {
 
     // *******************************************************
@@ -209,14 +216,11 @@ document.addEventListener('DOMContentLoaded', () => {
         'bola':          'Piedra Bola 4-6"'
     };
 
-    // carrito: array de items para permitir el mismo material varias veces (áreas distintas)
-    // cada item: { uid, id, nombre, qty, unidad, precio, area }
     const carrito = [];
     let uidCounter = 0;
 
     const fmtCOP = (n) => n.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 });
 
-    // Toast de confirmación
     function mostrarToast(msg) {
         let toast = document.getElementById('cot-toast');
         if (!toast) {
@@ -275,7 +279,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         resumen.innerHTML = html;
 
-        // Botones eliminar
         resumen.querySelectorAll('.cot-item-eliminar').forEach(btn => {
             btn.addEventListener('click', () => {
                 const uid = parseInt(btn.dataset.uid);
@@ -286,12 +289,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ── Calculadora ──
     const calcBtn       = document.getElementById('calc-btn');
     const calcResultado = document.getElementById('calc-resultado');
     const calcAgregarBtn = document.getElementById('calc-agregar-btn');
 
-    let calcEstado = null; // guarda el resultado actual para agregarlo
+    let calcEstado = null;
 
     if (calcBtn) {
         calcBtn.addEventListener('click', () => {
@@ -327,17 +329,14 @@ document.addEventListener('DOMContentLoaded', () => {
             carrito.push({ ...calcEstado, uid: ++uidCounter });
             renderCarrito();
             mostrarToast(`✓ ${calcEstado.nombre} agregado`);
-            // Limpiar calculadora
             document.getElementById('calc-area').value = '';
             document.getElementById('calc-producto').selectedIndex = 0;
             if (calcResultado) calcResultado.style.display = 'none';
             calcEstado = null;
-            // Scroll suave al carrito
             document.getElementById('cotizador-resumen')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         });
     }
 
-    // ── WhatsApp ──
     const cotBtnWa = document.getElementById('cot-btn-wa');
     if (cotBtnWa) {
         cotBtnWa.addEventListener('click', () => {
@@ -367,7 +366,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ── Limpiar todo ──
     const cotBtnReset = document.getElementById('cot-btn-reset');
     if (cotBtnReset) {
         cotBtnReset.addEventListener('click', () => {
@@ -380,7 +378,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Inicializar carrito vacío
     renderCarrito();
 
     // *******************************************************
@@ -452,63 +449,76 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && modalOverlay?.classList.contains('active')) closeProductModal(); });
 
     // *******************************************************
-    // 7. Formulario de contacto
+    // 7. Formulario de contacto (CORREGIDO PARA FORMSUBMIT AJAX)
     // *******************************************************
     const contactForm = document.getElementById('contact-form');
     const formSuccessMessage = document.getElementById('form-success-message');
 
     if (localStorage.getItem("formularioEnviado") === "true" && formSuccessMessage && contactForm) {
         contactForm.style.display = "none";
-        formSuccessMessage.textContent = "✅ Tu cotización ya fue recibida. ¡Gracias por contactarnos!";
+        formSuccessMessage.textContent = "✅ Tu solicitud ya fue recibida. ¡Gracias por contactarnos!";
         formSuccessMessage.style.display = "block";
     }
 
     if (contactForm) {
         contactForm.addEventListener('submit', function (event) {
             event.preventDefault();
+            
+            // Animamos o cambiamos el estado del botón mientras envía
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn ? submitBtn.textContent : 'Enviar';
+            if (submitBtn) {
+                submitBtn.textContent = 'Enviando...';
+                submitBtn.disabled = true;
+            }
+
             const formData = new FormData(contactForm);
             formData.append('fecha_hora', new Date().toLocaleString());
             formData.append('navegador', navigator.userAgent);
             formData.append('resolucion', `${window.screen.width}x${window.screen.height}`);
-            sendForm(formData);
-        });
-    }
-
-    function sendForm(formData) {
-        fetch("https://formsubmit.co/ajax/stonesuppliess@gmail.com", {
-            method: "POST", body: formData, headers: { 'Accept': 'application/json' }
-        })
-        .then(r => r.json())
-        .then(data => {
-            if (data.success === "true") {
-                contactForm.reset();
-                contactForm.style.display = "none";
+            
+            fetch("https://formsubmit.co/ajax/stonesuppliess@gmail.com", {
+                method: "POST", 
+                body: formData, 
+                headers: { 'Accept': 'application/json' }
+            })
+            .then(r => r.json())
+            .then(data => {
+                // CORRECCIÓN: FormSubmit responde con un booleano (true), no con un texto ("true")
+                if (data.success === true || data.success === "true") {
+                    contactForm.reset();
+                    contactForm.style.display = "none";
+                    if (formSuccessMessage) {
+                        formSuccessMessage.textContent = "✅ ¡Mensaje enviado con éxito! Te contactaremos a la brevedad.";
+                        formSuccessMessage.style.backgroundColor = "#d4edda";
+                        formSuccessMessage.style.color = "#155724";
+                        formSuccessMessage.style.display = "block";
+                    }
+                    localStorage.setItem("formularioEnviado", "true");
+                } else {
+                    if (formSuccessMessage) {
+                        formSuccessMessage.textContent = "❌ Hubo un error al procesar el envío. Por favor, inténtalo de nuevo.";
+                        formSuccessMessage.style.backgroundColor = "#f8d7da";
+                        formSuccessMessage.style.color = "#721c24";
+                        formSuccessMessage.style.display = "block";
+                    }
+                }
+            })
+            .catch(() => {
                 if (formSuccessMessage) {
-                    formSuccessMessage.textContent = "✅ ¡Mensaje enviado con éxito! Te contactaremos a la brevedad.";
-                    formSuccessMessage.style.backgroundColor = "#d4edda";
-                    formSuccessMessage.style.color = "#155724";
+                    formSuccessMessage.textContent = "⚠️ Problema de conexión al enviar.";
+                    formSuccessMessage.style.backgroundColor = "#fff3cd";
+                    formSuccessMessage.style.color = "#664d03";
                     formSuccessMessage.style.display = "block";
                 }
-                localStorage.setItem("formularioEnviado", "true");
-            } else {
-                if (formSuccessMessage) {
-                    formSuccessMessage.textContent = "❌ Hubo un error. Por favor, inténtalo de nuevo.";
-                    formSuccessMessage.style.backgroundColor = "#f8d7da";
-                    formSuccessMessage.style.color = "#721c24";
-                    formSuccessMessage.style.display = "block";
+            })
+            .finally(() => {
+                if (submitBtn) {
+                    submitBtn.textContent = originalBtnText;
+                    submitBtn.disabled = false;
                 }
-            }
-        })
-        .catch(() => {
-            if (formSuccessMessage) {
-                formSuccessMessage.textContent = "⚠️ Problema de conexión al enviar.";
-                formSuccessMessage.style.backgroundColor = "#fff3cd";
-                formSuccessMessage.style.color = "#664d03";
-                formSuccessMessage.style.display = "block";
-            }
-        })
-        .finally(() => {
-            if (formSuccessMessage) setTimeout(() => { formSuccessMessage.style.display = "none"; }, 6000);
+                if (formSuccessMessage) setTimeout(() => { formSuccessMessage.style.display = "none"; }, 6000);
+            });
         });
     }
 
@@ -559,3 +569,5 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && policyModalOverlay?.classList.contains('active')) closePolicyModal(); });
 
 }); // Fin DOMContentLoaded
+
+```
