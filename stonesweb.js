@@ -592,4 +592,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Inicializar carrito vacío
     renderCarrito();
-});
+})
