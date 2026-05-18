@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // *******************************************************
-    // 3. Carrusel de Productos (AUTO-PLAY)
+    // 3. Carrusel de Productos Optimizado (AJUSTE EXACTO AL FINAL)
     // *******************************************************
     const productosGrid = document.getElementById('productos-grid');
     let goTo = () => {};
@@ -111,16 +111,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const getVisibleCount = () => {
                 if (window.innerWidth <= 768) return 1;
-                if (window.innerWidth <= 992) return 2;
-                return 3;
+                if (window.innerWidth <= 992) return 3; 
+                return 5; 
             };
 
             const getVisibleCards = () => Array.from(track.querySelectorAll('.producto')).filter(c => c.style.display !== 'none');
 
             const getCardWidth = () => {
                 const card = track.querySelector('.producto');
-                if (!card) return 320;
-                return card.offsetWidth + 16;
+                if (!card) return 200;
+                const trackStyle = window.getComputedStyle(track);
+                const gap = parseFloat(trackStyle.gap) || 0;
+                return card.getBoundingClientRect().width + gap;
             };
 
             const buildDots = () => {
@@ -128,6 +130,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 const visible = getVisibleCount();
                 const cards = getVisibleCards();
                 const pages = Math.ceil(cards.length / visible);
+
+                if (cards.length <= visible) {
+                    btnPrev.style.display = 'none';
+                    btnNext.style.display = 'none';
+                    return;
+                } else {
+                    btnPrev.style.display = 'flex';
+                    btnNext.style.display = 'flex';
+                }
+
                 for (let i = 0; i < pages; i++) {
                     const dot = document.createElement('span');
                     if (i === 0) dot.classList.add('active');
@@ -148,23 +160,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 const visible = getVisibleCount();
                 const cards = getVisibleCards();
                 const maxIndex = Math.max(0, cards.length - visible);
+                
                 prodIndex = Math.max(0, Math.min(index, maxIndex));
-                track.style.transform = `translateX(-${prodIndex * getCardWidth()}px)`;
+                
+                let translateAmount = prodIndex * getCardWidth();
+                const maxTranslate = track.scrollWidth - track.getBoundingClientRect().width;
+                
+                if (translateAmount > maxTranslate) {
+                    translateAmount = maxTranslate;
+                }
+
+                track.style.transform = `translateX(-${translateAmount}px)`;
                 updateDots();
             };
 
             const nextProd = () => {
                 const visible = getVisibleCount();
                 const cards = getVisibleCards();
-                const newIndex = prodIndex + visible;
-                goTo(newIndex >= cards.length ? 0 : newIndex);
+                const maxIndex = Math.max(0, cards.length - visible);
+                if (prodIndex >= maxIndex) {
+                    goTo(0);
+                } else {
+                    goTo(prodIndex + visible);
+                }
             };
 
             const prevProd = () => {
                 const visible = getVisibleCount();
-                const cards = getVisibleCards();
-                const newIndex = prodIndex - visible;
-                goTo(newIndex < 0 ? Math.max(0, cards.length - visible) : newIndex);
+                if (prodIndex <= 0) {
+                    const cards = getVisibleCards();
+                    goTo(cards.length - visible);
+                } else {
+                    goTo(prodIndex - visible);
+                }
             };
 
             const resetProdAutoplay = () => {
@@ -196,7 +224,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // *******************************************************
     // 4. COTIZADOR INTEGRADO (calculadora de área + carrito)
     // *******************************************************
-
     const NOMBRES_MATERIALES = {
         'blanca':        'Piedra Blanca Crystal',
         'negra':         'Piedra Plana Negra de Río',
@@ -206,17 +233,15 @@ document.addEventListener('DOMContentLoaded', () => {
         'triturado':     'Triturado de Piedra 3/4"',
         'canto':         'Canto Rodado de Río 2-4"',
         'arena':         'Arena de Río y Peña',
-        'bola':          'Piedra Bola 4-6"'
+        'bola':          'Piedra Bola 4-6"',
+        'ocre':          'Piedra Ocre Decorativa'
     };
 
-    // carrito: array de items para permitir el mismo material varias veces (áreas distintas)
-    // cada item: { uid, id, nombre, qty, unidad, precio, area }
     const carrito = [];
     let uidCounter = 0;
 
     const fmtCOP = (n) => n.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 });
 
-    // Toast de confirmación
     function mostrarToast(msg) {
         let toast = document.getElementById('cot-toast');
         if (!toast) {
@@ -275,7 +300,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         resumen.innerHTML = html;
 
-        // Botones eliminar
+        const inputDetalles = document.getElementById('form-cotizacion-detalles');
+        if (inputDetalles) {
+            inputDetalles.value = carrito.map(i => `${i.nombre} (${i.qty} ${i.unidad}${i.area ? ' para ' + i.area + 'm²' : ''})`).join(' | ');
+        }
+
         resumen.querySelectorAll('.cot-item-eliminar').forEach(btn => {
             btn.addEventListener('click', () => {
                 const uid = parseInt(btn.dataset.uid);
@@ -286,12 +315,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ── Calculadora ──
     const calcBtn       = document.getElementById('calc-btn');
     const calcResultado = document.getElementById('calc-resultado');
     const calcAgregarBtn = document.getElementById('calc-agregar-btn');
 
-    let calcEstado = null; // guarda el resultado actual para agregarlo
+    let calcEstado = null;
 
     if (calcBtn) {
         calcBtn.addEventListener('click', () => {
@@ -327,12 +355,10 @@ document.addEventListener('DOMContentLoaded', () => {
             carrito.push({ ...calcEstado, uid: ++uidCounter });
             renderCarrito();
             mostrarToast(`✓ ${calcEstado.nombre} agregado`);
-            // Limpiar calculadora
             document.getElementById('calc-area').value = '';
             document.getElementById('calc-producto').selectedIndex = 0;
             if (calcResultado) calcResultado.style.display = 'none';
             calcEstado = null;
-            // Scroll suave al carrito
             document.getElementById('cotizador-resumen')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         });
     }
@@ -367,7 +393,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ── Limpiar todo ──
     const cotBtnReset = document.getElementById('cot-btn-reset');
     if (cotBtnReset) {
         cotBtnReset.addEventListener('click', () => {
@@ -379,9 +404,6 @@ document.addEventListener('DOMContentLoaded', () => {
             renderCarrito();
         });
     }
-
-    // Inicializar carrito vacío
-    renderCarrito();
 
     // *******************************************************
     // 5. Animación de elementos al hacer scroll
@@ -452,7 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && modalOverlay?.classList.contains('active')) closeProductModal(); });
 
     // *******************************************************
-    // 7. Formulario de contacto
+    // 7. Formulario de contacto con reCAPTCHA obligatorio
     // *******************************************************
     const contactForm = document.getElementById('contact-form');
     const formSuccessMessage = document.getElementById('form-success-message');
@@ -466,10 +488,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (contactForm) {
         contactForm.addEventListener('submit', function (event) {
             event.preventDefault();
+
+            const tokenRecaptcha = grecaptcha.getResponse();
+            if (tokenRecaptcha.length === 0) {
+                alert('⚠️ Validación requerida: Por favor, marca la casilla "No soy un robot" para enviar tu consulta de forma segura.');
+                return;
+            }
+
             const formData = new FormData(contactForm);
             formData.append('fecha_hora', new Date().toLocaleString());
             formData.append('navegador', navigator.userAgent);
             formData.append('resolucion', `${window.screen.width}x${window.screen.height}`);
+            formData.append('g-recaptcha-response', tokenRecaptcha);
+
             sendForm(formData);
         });
     }
@@ -480,8 +511,9 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(r => r.json())
         .then(data => {
-            if (data.success === "true") {
+            if (data.success === "true" || data.status === "success") {
                 contactForm.reset();
+                grecaptcha.reset(); 
                 contactForm.style.display = "none";
                 if (formSuccessMessage) {
                     formSuccessMessage.textContent = "✅ ¡Mensaje enviado con éxito! Te contactaremos a la brevedad.";
@@ -492,7 +524,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem("formularioEnviado", "true");
             } else {
                 if (formSuccessMessage) {
-                    formSuccessMessage.textContent = "❌ Hubo un error. Por favor, inténtalo de nuevo.";
+                    formSuccessMessage.textContent = "❌ Error de validación en el servidor. Por favor, inténtalo de nuevo.";
                     formSuccessMessage.style.backgroundColor = "#f8d7da";
                     formSuccessMessage.style.color = "#721c24";
                     formSuccessMessage.style.display = "block";
@@ -558,4 +590,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (acceptPolicyFromModalButton) acceptPolicyFromModalButton.addEventListener('click', () => { acceptAndHideBanner(); closePolicyModal(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && policyModalOverlay?.classList.contains('active')) closePolicyModal(); });
 
-}); // Fin DOMContentLoaded
+    // Inicializar carrito vacío
+    renderCarrito();
+});
