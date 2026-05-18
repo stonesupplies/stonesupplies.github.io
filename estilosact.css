@@ -185,7 +185,7 @@ section {
 
 /* OPTIMIZADO: De 25% a 20% para mostrar 5 productos más pequeños y compactos por fila en desktop */
 .productos-carousel-track .producto {
-    flex: 0 0 calc(20% - 14px); min-width: calc(20% - 14px); margin: 0 7px;
+    flex: 0 0 calc(30% - 14px); min-width: calc(30% - 14px); margin: 0 7px;
     background: var(--color-bg-card); border: 1px solid var(--color-border);
     border-radius: var(--radius); box-shadow: var(--shadow-light);
     text-align: center; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
