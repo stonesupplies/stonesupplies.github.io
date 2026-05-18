@@ -1,10 +1,3 @@
-El error por el cual no se enviaba el formulario se debía a que la validación del backend de **FormSubmit** esperaba que la respuesta JSON tuviera la propiedad `success` en formato booleano (`true`), mientras que en tu código se estaba validando de manera estricta como texto o cadena (`data.success === "true"`). Al no coincidir el tipo de dato, el código saltaba directamente a la alerta de error (❌) aunque FormSubmit lo procesara correctamente.
-
-Adicionalmente, aproveché para solucionar el error de consola del campo inexistente `cot-telefono` (Línea 232 de tu script original) agregando un operador de encadenamiento opcional para que la limpieza de la cotización no se rompa si decides no pedir el teléfono en el HTML.
-
-Aquí tienes tu archivo **`stonesweb.js`** completamente corregido y optimizado. Copia todo este bloque y reemplaza el contenido de tu archivo:
-
-```javascript
 document.addEventListener('DOMContentLoaded', () => {
 
     // *******************************************************
@@ -203,7 +196,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // *******************************************************
     // 4. COTIZADOR INTEGRADO (calculadora de área + carrito)
     // *******************************************************
-
     const NOMBRES_MATERIALES = {
         'blanca':        'Piedra Blanca Crystal',
         'negra':         'Piedra Plana Negra de Río',
@@ -213,7 +205,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'triturado':     'Triturado de Piedra 3/4"',
         'canto':         'Canto Rodado de Río 2-4"',
         'arena':         'Arena de Río y Peña',
-        'bola':          'Piedra Bola 4-6"'
+        'bola':          'Piedra Bola 4-6"',
+        'Ocre Moderno':  'Piedra Ocre Moderno'
     };
 
     const carrito = [];
@@ -305,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const [id, precioStr, rendimientoStr, unidad, tipo] = prodVal.split('|');
+            const [id, precioStr, rendimientoStr, unidad] = prodVal.split('|');
             const precio      = parseInt(precioStr);
             const rendimiento = parseFloat(rendimientoStr);
 
@@ -343,12 +336,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!carrito.length) { alert('Agrega al menos un producto a tu cotización.'); return; }
 
             const nombre    = document.getElementById('cot-nombre')?.value.trim();
-            const telefono  = document.getElementById('cot-telefono')?.value.trim();
             const direccion = document.getElementById('cot-direccion')?.value.trim();
             const notas     = document.getElementById('cot-notas')?.value.trim();
 
             let total = 0;
-            let msg = '¡Hola Stones Supplies! Me interesa hacer el siguiente pedido:\n\n';
+            let msg = '¡Hola Biocalma / Stones Supplies! Me interesa hacer el siguiente pedido:\n\n';
             carrito.forEach(it => {
                 const sub = it.precio * it.qty;
                 total += sub;
@@ -357,10 +349,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             msg += `\n*Total estimado: ${fmtCOP(total)}*`;
             if (nombre)    msg += `\n\nNombre: ${nombre}`;
-            if (telefono)  msg += `\nTeléfono: ${telefono}`;
-            if (direccion) msg += `\nDirección: ${direccion}`;
-            if (notas)     msg += `\nNotas: ${notas}`;
-            msg += '\n\nPor favor confirmar disponibilidad y detalles de envío. ¡Gracias!';
+            if (direccion) msg += `\nDirección Despacho: ${direccion}`;
+            if (notas)     msg += `\nNotas adicionales: ${notas}`;
+            msg += '\n\nPor favor confirmar disponibilidad y detalles de envío. ¡Muchas gracias!';
 
             window.open('https://wa.me/573178626912?text=' + encodeURIComponent(msg), '_blank');
         });
@@ -370,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (cotBtnReset) {
         cotBtnReset.addEventListener('click', () => {
             carrito.length = 0;
-            ['cot-nombre','cot-telefono','cot-direccion','cot-notas'].forEach(id => {
+            ['cot-nombre','cot-direccion','cot-notas'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.value = '';
             });
@@ -411,7 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const waLink = document.getElementById('modal-whatsapp-link');
         if (waLink && product.whatsapp) {
-            waLink.href = `https://wa.me/573178626912?text=${product.whatsapp}`;
+            waLink.href = `https://wa.me/573178626912?text=${encodeURIComponent(product.whatsapp)}`;
         }
 
         modalOverlay.classList.add('active');
@@ -449,7 +440,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && modalOverlay?.classList.contains('active')) closeProductModal(); });
 
     // *******************************************************
-    // 7. Formulario de contacto (CORREGIDO PARA FORMSUBMIT AJAX)
+    // 7. Formulario de contacto (ENVÍO AJAX TRANSPARENTE)
     // *******************************************************
     const contactForm = document.getElementById('contact-form');
     const formSuccessMessage = document.getElementById('form-success-message');
@@ -464,7 +455,6 @@ document.addEventListener('DOMContentLoaded', () => {
         contactForm.addEventListener('submit', function (event) {
             event.preventDefault();
             
-            // Animamos o cambiamos el estado del botón mientras envía
             const submitBtn = contactForm.querySelector('button[type="submit"]');
             const originalBtnText = submitBtn ? submitBtn.textContent : 'Enviar';
             if (submitBtn) {
@@ -475,7 +465,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const formData = new FormData(contactForm);
             formData.append('fecha_hora', new Date().toLocaleString());
             formData.append('navegador', navigator.userAgent);
-            formData.append('resolucion', `${window.screen.width}x${window.screen.height}`);
             
             fetch("https://formsubmit.co/ajax/stonesuppliess@gmail.com", {
                 method: "POST", 
@@ -484,7 +473,6 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(r => r.json())
             .then(data => {
-                // CORRECCIÓN: FormSubmit responde con un booleano (true), no con un texto ("true")
                 if (data.success === true || data.success === "true") {
                     contactForm.reset();
                     contactForm.style.display = "none";
@@ -517,13 +505,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     submitBtn.textContent = originalBtnText;
                     submitBtn.disabled = false;
                 }
-                if (formSuccessMessage) setTimeout(() => { formSuccessMessage.style.display = "none"; }, 6000);
             });
         });
     }
 
     // *******************************************************
-    // 8. Banner de privacidad y Modal de política
+    // 8. Banner de privacidad y Cookies
     // *******************************************************
     const privacyBanner = document.getElementById('privacy-banner');
     const acceptCookiesButton = document.getElementById('accept-cookies');
@@ -568,6 +555,4 @@ document.addEventListener('DOMContentLoaded', () => {
     if (acceptPolicyFromModalButton) acceptPolicyFromModalButton.addEventListener('click', () => { acceptAndHideBanner(); closePolicyModal(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && policyModalOverlay?.classList.contains('active')) closePolicyModal(); });
 
-}); // Fin DOMContentLoaded
-
-```
+});
