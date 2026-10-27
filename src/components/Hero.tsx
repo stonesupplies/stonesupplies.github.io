@@ -75,7 +75,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToCalculator, onScrollToCata
           <div className="lg:col-span-6 flex items-stretch">
             <div className="relative w-full rounded-sm overflow-hidden border border-stone-700/60 shadow-2xl bg-stone-800 min-h-[380px] lg:min-h-full flex flex-col">
               <img
-                src="/src/assets/images/diseñointerior.png"
+                src="/src/assets/images/disenointerior.png"
                 alt="Proyecto arquitectónico con piedra decorativa blanca, pizarra negra y vegetación en Bogotá"
                 className="w-full h-full object-cover object-center flex-1"
                 referrerPolicy="no-referrer"
