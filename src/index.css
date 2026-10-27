@@ -1,0 +1,24 @@
+/* 1. Importación física de las fuentes desde los servidores de Google */
+@import url('https://googleapis.com');
+
+/* 2. Inicialización del framework */
+@import "tailwindcss";
+
+/* 3. Registro de las variables en el tema de Tailwind v4 */
+@theme {
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* 4. Estilos globales de asignación */
+body {
+  font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3,
+.font-heading {
+  font-family: var(--font-display);
+}
