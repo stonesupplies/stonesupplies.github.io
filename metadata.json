@@ -1,8 +1,0 @@
-{
-  "name": "Stone Supplies - Piedra Natural y Paisajismo",
-  "description": "Proveedor especializado en piedra natural decorativa, gravillas, mármol y agregados de cantera para paisajismo y arquitectura en Bogotá y Colombia con calculadora y cotización directa por WhatsApp.",
-  "requestFramePermissions": [],
-  "majorCapabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
-  ]
-}
