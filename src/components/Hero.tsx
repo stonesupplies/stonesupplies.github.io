@@ -1,5 +1,6 @@
 import React from 'react';
-import { ArrowRight, Calculator, CheckCircle2, ShieldCheck, Truck, Sparkles } from 'lucide-react';
+import { ArrowRight, Calculator, CheckCircle2, Truck } from 'lucide-react';
+import disenoInterior from '../assets/images/disenointerior.png';
 
 interface HeroProps {
   onScrollToCalculator: () => void;
@@ -10,17 +11,17 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToCalculator, onScrollToCata
   return (
     <section className="relative bg-stone-900 text-stone-100 overflow-hidden border-b border-stone-800">
       {/* Background ambient lighting */}
-      <div 
-        className="absolute inset-0 opacity-15 pointer-events-none bg-[radial-gradient(#a8a29e_1px,transparent_1px)] [bg-size-[24px_24px]`tailwindcss]" 
-        aria-hidden="true" 
+      <div
+        className="absolute inset-0 opacity-15 pointer-events-none bg-[radial-gradient(#a8a29e_1px,transparent_1px)] [background-size:24px_24px]"
+        aria-hidden="true"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 lg:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-stretch">
-          
+
           {/* Left Column: Brand Copy & Actions */}
           <div className="lg:col-span-6 flex flex-col justify-center">
-            
+
             {/* Clean unboxed metadata separator */}
             <div className="flex items-center gap-2 text-xs font-medium tracking-widest uppercase text-stone-400 mb-4">
               <span>Bogotá & Sabana</span>
@@ -73,19 +74,15 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToCalculator, onScrollToCata
 
           {/* Right Column: Hero Visual Showcase */}
           <div className="lg:col-span-6 flex items-stretch">
-            <div className="relative w-full rounded-sm overflow-hidden border border-stone-700/60 shadow-2xl bg-stone-800 min-height-[380px] lg:min-h-full flex flex-col">
+            <div className="relative w-full rounded-sm overflow-hidden border border-stone-700/60 shadow-2xl bg-stone-800 min-h-[380px] lg:min-h-full flex flex-col">
               <img
-                src="/src/assets/images/disenointerior.png"
+                src={disenoInterior}
                 alt="Proyecto arquitectónico con piedra decorativa blanca, pizarra negra y vegetación en Bogotá"
                 className="w-full h-full object-cover object-center flex-1"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 bg-linear-to-t`tailwindcss(suggestCanonicalClasses)
-.bg-gradient-to-t {
-    --tw-gradient-position: to top in oklab;
-    background-image: linear-gradient(var(--tw-gradient-stops));
-} from-stone-950/90 via-stone-950/20 to-transparent pointer-events-none" />
-              
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-950/90 via-stone-950/20 to-transparent pointer-events-none" />
+
               {/* Bottom Scrim Caption */}
               <div className="absolute bottom-0 inset-x-0 p-6 text-stone-200">
                 <div className="flex items-center justify-between gap-4">
